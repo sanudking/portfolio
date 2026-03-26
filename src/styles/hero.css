@@ -1,0 +1,39 @@
+.hero {
+  min-height: 50vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 80px;
+}
+
+.hero-left {
+  max-width: 600px;
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  line-height: 1.2;
+}
+
+.hero p {
+  margin-top: 15px;
+  font-size: 1.2rem;
+  opacity: 0.8;
+}
+
+.hero-buttons {
+  margin-top: 25px;
+  display: flex;
+  gap: 15px;
+}
+
+.hero button {
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s ease;
+}
+
+.hero button:hover {
+  transform: scale(1.05);
+}

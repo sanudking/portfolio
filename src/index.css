@@ -1,0 +1,42 @@
+:root {
+  --bg: rgb(190, 160, 224);
+  --text: black;
+  --btn-bg: #ffffff;
+  --btn-border: #222222;
+}
+
+html.dark {
+  --bg: #2c1932;
+  --text: rgb(255, 255, 255);
+  --btn-bg: #4b2b57;
+  --btn-border: #ffffff;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, Arial, sans-serif;
+}
+
+#root {
+  min-height: 100vh;
+  background-color: var(--bg);
+}
+
+a,
+p,
+h1,
+h2,
+nav {
+  color: var(--text);
+}
+
+button {
+  color: var(--text);
+  background-color: var(--btn-bg);
+  border: 1px solid var(--btn-border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
