@@ -1,13 +1,22 @@
+/* --- Your Original Hero Structure & Typography --- */
 .hero {
   min-height: 50vh;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 80px;
+  gap: 40px; /* Added padding separation between text column and 3D frame column */
 }
 
 .hero-left {
   max-width: 600px;
+}
+
+.hero-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .hero h1 {
@@ -27,13 +36,84 @@
   gap: 15px;
 }
 
+/* Your Original Global Button Scaling Transitions Style */
 .hero button {
   padding: 10px 20px;
   cursor: pointer;
   border: none;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .hero button:hover {
   transform: scale(1.05);
+}
+
+
+/* --- New 3D Stacking and Fade Viewport Styles --- */
+
+/* Absolute bounding boundary container workspace for 3D elements */
+/* Update your existing .viewer-container rule to use transparent */
+.viewer-container {
+  position: relative;
+  width: 100%;
+  max-width: 450px; 
+  height: 400px; 
+  margin: 0 auto; 
+  background-color: transparent; /* Changed from #f0f0f0 */
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Add a background-color rule to your existing .spin-viewer selector */
+.spin-viewer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent; /* Added to override internal viewer defaults */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+
+/* Active model selection fade rules */
+.spin-viewer.visible-model {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto; /* Active visible asset regains responsive trackpad controls */
+}
+
+/* Structure formatting adjustments for the choice target panels layout */
+.controls-panel {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-container {
+  display: flex;
+  gap: 10px;
+}
+
+/* Specific properties override styling profile for your planet select elements */
+.select-btn {
+  font-weight: bold;
+  border: 1px solid #ccc !important; /* Forces layout borders on text tags safely */
+  background: #2e2424;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.select-btn:hover {
+  background: #2b1c1c;
+}
+
+/* Solid blue background highlights state configuration for current active choice selectors */
+.select-btn.selected-target {
+  background-color: #007bff;
+  color: white;
+  border-color: #0056b3 !important;
 }

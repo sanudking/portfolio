@@ -24,3 +24,23 @@
   display: flex;
   gap: 10px;
 }
+
+.filter-button {
+  padding: 10px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  background: #f8fafc;
+  color: #334155;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.filter-button:hover {
+  transform: translateY(-1px);
+}
+
+.filter-button.active {
+  background: #0f172a;
+  border-color: #0f172a;
+  color: #ffffff;
+}

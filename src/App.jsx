@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Projects from "./pages/Projects";
 import Contact from "./pages/Contact";
 
+
 function App() {
 
   const [count, setCount] = useState(0);
@@ -33,6 +34,18 @@ function App() {
   const [name, setName] = useState(() => {
   return localStorage.getItem("name") || "";
 });
+  const imageUrl = "https://example.com";
+
+  const divStyle = {
+    // Starting with '/' points automatically to the public folder root
+    backgroundImage: "url('/image.png')", 
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    minHeight: '400px',
+    width: '100%',
+  };
+
 
 function saveName() {
   localStorage.setItem("name", "nickname");
@@ -41,23 +54,25 @@ function saveName() {
   
   return (
 
-    <div style={{padding:"60px"}}>
-      <Navbar darkMode={dark} setDarkMode={setDarkMode} />
-      <h1>Portfolio</h1>
+    <div style={divStyle}>
+      <div style={{padding:"60px"}}>
+        <Navbar darkMode={dark} setDarkMode={setDarkMode} />
+        <h1>Portfolio</h1>
       
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/projects" element={<Projects />} />
-        <Route path="/contact" element={<Contact />} />
-      </Routes>
-      <p>hi</p>
-     
-      <button onClick={saveName}>{name}</button>
-      <p></p>
-      <p>button clicked {count} times</p>
-      <br />
-      <button onClick={() => setCount(count + 1)}>Click me!</button>
-      <button onClick={() => setCount(0)}>Reset</button>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
+        <p>hi</p>
+      
+        <button onClick={saveName}>{name}</button>
+        <p></p>
+        <p>button clicked {count} times</p>
+        <br />
+        <button onClick={() => setCount(count + 1)}>Click me!</button>
+        <button onClick={() => setCount(0)}>Reset</button>
+      </div>
     </div>
   );
 }
