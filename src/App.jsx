@@ -38,7 +38,7 @@ function App() {
 
   const divStyle = {
     // Starting with '/' points automatically to the public folder root
-    backgroundImage: "url('/image.png')", 
+    backgroundImage: "url('/images/image.png')", 
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     backgroundSize: 'cover',

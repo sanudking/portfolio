@@ -58,7 +58,7 @@ function Hero() {
           <model-viewer 
             className={`spin-viewer ${activeTarget === "earth" ? "visible-model" : ""}`}
             data-name="earth" 
-            src="/earth.glb"  /* Note: Move your .glb files into your 'public' folder */
+            src="/models/earth.glb"
             alt="A 3D model of Earth" 
             disable-zoom 
             disable-pan 
@@ -72,7 +72,7 @@ function Hero() {
           <model-viewer 
             className={`spin-viewer ${activeTarget === "sun" ? "visible-model" : ""}`}
             data-name="sun" 
-            src="/sun.glb" 
+            src="/models/sun.glb" 
             alt="A 3D model of the Sun" 
             disable-zoom 
             disable-pan 
@@ -86,7 +86,7 @@ function Hero() {
           <model-viewer 
             className={`spin-viewer ${activeTarget === "moon" ? "visible-model" : ""}`}
             data-name="moon" 
-            src="/moon.glb" 
+            src="/models/moon.glb" 
             alt="A 3D model of the Moon" 
             disable-zoom 
             disable-pan 
@@ -105,7 +105,7 @@ function Hero() {
               className={`select-btn ${activeTarget === "earth" ? "selected-target" : ""}`} 
               onClick={() => handleSelection("earth")}
             >
-                                  <img src="/earth.svg" alt="icon" width="20" height="20" />
+                                  <img src="/images/earth.svg" alt="icon" width="20" height="20" />
 
               
             </button>
@@ -113,7 +113,7 @@ function Hero() {
               className={`select-btn ${activeTarget === "sun" ? "selected-target" : ""}`} 
               onClick={() => handleSelection("sun")}
             >
-                                  <img src="/sun.svg" alt="icon" width="20" height="20" />
+                                  <img src="/images/sun.svg" alt="icon" width="20" height="20" />
 
               
             </button>
@@ -121,7 +121,7 @@ function Hero() {
               className={`select-btn ${activeTarget === "moon" ? "selected-target" : ""}`} 
               onClick={() => handleSelection("moon")}
             >
-                    <img src="/moon.svg" alt="icon" width="20" height="20" />
+                    <img src="/images/moon.svg" alt="icon" width="20" height="20" />
 
               
             </button>
