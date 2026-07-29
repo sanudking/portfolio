@@ -9,9 +9,9 @@ function Navbar({ darkMode, setDarkMode }) {
       <Link to="/projects">Projects</Link>
       <Link to="/contact">Contact</Link>
 
-      <button onClick={() => setDarkMode(!darkMode)}>
+      {/* <button onClick={() => setDarkMode(!darkMode)}>
         {darkMode ? "Light" : "Dark"}
-      </button>
+      </button> */}
     </nav>
   );
 }
