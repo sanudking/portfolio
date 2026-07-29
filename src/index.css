@@ -1,8 +1,8 @@
 :root {
-  --bg: rgb(190, 160, 224);
-  --text: black;
-  --btn-bg: #ffffff;
-  --btn-border: #222222;
+  --bg: #0c0b0c;
+  --text: rgb(255, 255, 255);
+  --btn-bg: #4b2b57;
+  --btn-border: #ffffff;
 }
 
 html.dark {
