@@ -11,6 +11,7 @@ function Hero() {
   
   // 2. State to track the currently selected active target model
   const [activeTarget, setActiveTarget] = useState("earth");
+  const [color,setColor]=useState("deepskyblue");
 
   const handleSelection = (newTarget) => {
     if (activeTarget === newTarget) return;
@@ -42,13 +43,15 @@ function Hero() {
         animate={{ opacity: 1, y: 0 }} 
         transition={{ duration: 0.8 }}
       >
-        <h1> Hi, I'm <br /> <span>Sudhanshu</span> </h1>
+        <h1 > Hi, I'm <br /> <span style={{color:color,   transition: 'color 0.5s ease-in-out', 
+}}>Sudhanshu</span> </h1>
         <p> 
-          B.Tech student building real-world projects with focus on performance and clean systems. 
+          A Full stack developer , 
+          2nd Year CSE undergrad at NIT Jalandhar 
         </p>
         <div className="hero-buttons">
           <button onClick={() => navigate("/projects")}> View Projects </button>
-          <button> Contact Me </button>
+          <button onClick={() => navigate("/contact")}> Contact Me </button>
         </div>
       </motion.div>
 
@@ -103,7 +106,9 @@ function Hero() {
           <div className="btn-container">
             <button 
               className={`select-btn ${activeTarget === "earth" ? "selected-target" : ""}`} 
-              onClick={() => handleSelection("earth")}
+              onClick={() => {handleSelection("earth");
+                              setColor("deepskyblue");
+               }}
             >
                                   <img src="/images/earth.svg" alt="icon" width="20" height="20" />
 
@@ -111,7 +116,9 @@ function Hero() {
             </button>
             <button 
               className={`select-btn ${activeTarget === "sun" ? "selected-target" : ""}`} 
-              onClick={() => handleSelection("sun")}
+              onClick={() => {handleSelection("sun");
+                              setColor("goldenrod");
+               }}
             >
                                   <img src="/images/sun.svg" alt="icon" width="20" height="20" />
 
@@ -119,7 +126,9 @@ function Hero() {
             </button>
             <button 
               className={`select-btn ${activeTarget === "moon" ? "selected-target" : ""}`} 
-              onClick={() => handleSelection("moon")}
+              onClick={() => {handleSelection("moon");
+                              setColor("gray");
+               }}
             >
                     <img src="/images/moon.svg" alt="icon" width="20" height="20" />
 

@@ -40,3 +40,16 @@ button {
   padding: 8px 12px;
   cursor: pointer;
 }
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;  
+  padding: 20px 0;
+  width: 100%;
+  padding-bottom: 50px;
+}
+html{
+  scroll-behavior: smooth;
+  
+}

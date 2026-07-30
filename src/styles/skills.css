@@ -1,0 +1,44 @@
+.skills-section {
+  padding: 3rem 1rem;
+  max-width: 1100px; /* Increased maximum width of the section */
+  margin: 0 auto;
+}
+
+.skills-section h1 {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  font-size: 2.5rem;
+  color: #ffffff;
+}
+
+/* 3 uniform columns with gap */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 equal-width columns */
+  gap: 1.75rem; /* Consistent spacing between all items */
+  justify-content: center;
+}
+
+/* Ensure IconButton (or button wrapper) spans full column width with uniform height */
+.skills-grid > * {
+  width: 100%;             /* Fills the column width */
+  min-height: 70px;        /* Fixed uniform height for all cards */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem; /* Generous padding inside cards */
+  box-sizing: border-box;
+}
+
+/* Responsive adjustments for mobile devices */
+@media (max-width: 768px) {
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+}

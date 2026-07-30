@@ -3,7 +3,10 @@ import { useEffect, useLayoutEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Projects from "./pages/Projects";
+import Blog from "./pages/Blog";
+
 import Contact from "./pages/Contact";
+import Accomplishments from "./pages/Accomplishments";
 
 
 function App() {
@@ -39,10 +42,11 @@ function App() {
   const divStyle = {
     // Starting with '/' points automatically to the public folder root
     backgroundImage: "url('/images/image.png')", 
-    backgroundRepeat: 'no-repeat',
+    backgroundAttachment: 'fixed',
     backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
-    minHeight: '400px',
+    minHeight: '100vh',
     width: '100%',
   };
 
@@ -63,6 +67,8 @@ function saveName() {
           <Route path="/" element={<Home />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/blogs" element={<Blog/>} />
+          <Route path="/accomplishments" element={<Accomplishments />} />
         </Routes>
         <p>hi</p>
       
@@ -72,7 +78,16 @@ function saveName() {
         <br />
         <button onClick={() => setCount(count + 1)}>Click me!</button>
         <button onClick={() => setCount(0)}>Reset</button>
+        <br/><br/><br/><br/><br/>
+        
       </div>
+      
+      <footer >
+        <a href="https://github.com/sanudking" target="_blank" rel="noopener noreferrer"><button ><img src="/images/github.png" width="20" height="20"></img></button></a>
+        <a href="https://www.linkedin.com/in/sudhanshu-kumar-9ba993239/" target="_blank" rel="noopener noreferrer"><button><img src="/images/linkedin.png" width="20" height="20"></img></button></a>
+        <a href="https://www.instagram.com/sudhanshu._.01/" target="_blank" rel="noopener noreferrer"><button><img src="/images/instagram.png" width="20" height="20"></img></button></a>
+        
+      </footer>
     </div>
   );
 }
