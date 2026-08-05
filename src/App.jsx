@@ -7,6 +7,7 @@ import Blog from "./pages/Blog";
 
 import Contact from "./pages/Contact";
 import Accomplishments from "./pages/Accomplishments";
+import Journal from "./pages/Journal";
 
 
 function App() {
@@ -61,13 +62,15 @@ function saveName() {
     <div style={divStyle}>
       <div style={{padding:"60px"}}>
         <Navbar darkMode={dark} setDarkMode={setDarkMode} />
-        <h1>Portfolio</h1>
+        
       
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/blogs" element={<Blog/>} />
+          <Route path="/journal" element={<Journal/>} />
+
           <Route path="/accomplishments" element={<Accomplishments />} />
         </Routes>
         <p>hi</p>

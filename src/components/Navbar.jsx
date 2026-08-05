@@ -12,6 +12,7 @@ function Navbar() {
 
       <Link to="/projects">Projects</Link>
       <Link to="/contact">Contact</Link>
+      <Link to="/journal">Journal</Link>
 
       {/* <button onClick={() => setDarkMode(!darkMode)}>
         {darkMode ? "Light" : "Dark"}

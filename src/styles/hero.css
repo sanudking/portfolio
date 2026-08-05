@@ -117,3 +117,16 @@
   color: white;
   border-color: #0056b3 !important;
 }
+
+@media screen and (max-width:800px){
+  .hero{
+    min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 80px;
+  gap: 40px;
+  }
+  
+}
