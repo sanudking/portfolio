@@ -54,3 +54,11 @@ html{
   overflow-y: scroll
   
 }
+a{
+  text-decoration:none;
+  color:#92e4f1
+
+}
+a:hover{
+  color:aqua
+}
