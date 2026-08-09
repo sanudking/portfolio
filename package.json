@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@google/model-viewer": "^4.3.1",
+    "counterapi": "^2.1.2",
     "framer-motion": "^12.38.0",
     "motion": "^12.38.0",
     "react": "^19.2.4",
