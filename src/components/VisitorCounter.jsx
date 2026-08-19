@@ -8,24 +8,24 @@ const VisitorCounter = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function trackVisit() {
-      try {
-        const result = await counter.up('portfolio-page-views');
-        console.log('CounterAPI Response:', result);
+	useEffect(() => {
+	  async function trackVisit() {
+	    try {
+	      const result = await counter.up('portfolio-page-views');
+	      console.log('CounterAPI Response:', result);
 
-        const countValue = result.value ?? result.data?.value ?? result.data?.up_count ?? result.data?.count ?? result.count;
-        setViews(countValue);
-      } catch (error) {
-        console.error('Error fetching visitor count:', error);
-        setError('Unavailable');
-      } finally {
-        setLoading(false);
-      }
-    }
+	      const countValue = result.value ?? result.data?.value ?? result.data?.up_count ?? result.data?.count ?? result.count;
+	      setViews(countValue);
+	    } catch (error) {
+	      console.error('Error fetching visitor count:', error);
+	      setError('Unavailable');
+	    } finally {
+	      setLoading(false);
+	    }
+	  }
 
-    trackVisit();
-  }, []);
+	  trackVisit();
+	}, []);
 
   return (
     <div>
