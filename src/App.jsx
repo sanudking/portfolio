@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Projects from "./pages/Projects";
@@ -62,6 +63,7 @@ function saveName() {
 
     <div style={divStyle}>
       <Analytics />
+      <SpeedInsights />
       <div style={{padding:"60px"}}>
         <Navbar darkMode={dark} setDarkMode={setDarkMode} />
         

@@ -12,6 +12,7 @@
   "dependencies": {
     "@google/model-viewer": "^4.3.1",
     "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "counterapi": "^2.1.2",
     "framer-motion": "^12.38.0",
     "motion": "^12.38.0",
