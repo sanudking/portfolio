@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { useEffect, useLayoutEffect, useState } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Projects from "./pages/Projects";
@@ -60,6 +61,7 @@ function saveName() {
   return (
 
     <div style={divStyle}>
+      <Analytics />
       <div style={{padding:"60px"}}>
         <Navbar darkMode={dark} setDarkMode={setDarkMode} />
         
