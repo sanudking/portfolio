@@ -1,4 +1,5 @@
 import SkillCard from "./SkillCard";
+import Inertial from "./Inertial";
 import "../styles/skills.css";
 
 const skillsData = [
@@ -36,22 +37,30 @@ const skillsData = [
 function Skills() {
   return (
     <section id="skills" className="section skills-section">
-      <div className="section-head">
-        <span className="eyebrow">Toolbox</span>
-        <h2 className="section-title">Skills &amp; technologies</h2>
-        <p className="section-sub">
-          The stack I reach for when turning an idea into a working product.
-        </p>
-      </div>
+      <Inertial className="inertial-block" depth={0.8} lag={5}>
+        <div className="section-head">
+          <span className="eyebrow">Toolbox</span>
+          <h2 className="section-title">Skills &amp; technologies</h2>
+          <p className="section-sub">
+            The stack I reach for when turning an idea into a working product.
+          </p>
+        </div>
+      </Inertial>
 
       <div className="skills-grid">
-        {skillsData.map((skill) => (
-          <SkillCard
+        {skillsData.map((skill, index) => (
+          <Inertial
             key={skill.text}
-            icon={skill.icon}
-            text={skill.text}
-            invert={skill.invert}
-          />
+            className="inertial-item"
+            depth={0.6}
+            lag={4 + (index % 3)}
+          >
+            <SkillCard
+              icon={skill.icon}
+              text={skill.text}
+              invert={skill.invert}
+            />
+          </Inertial>
         ))}
       </div>
     </section>

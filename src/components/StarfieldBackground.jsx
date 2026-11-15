@@ -9,6 +9,11 @@ const MIN_PARTICLES = 36;
 const MAX_PARTICLES = 170;
 const MAX_DPR = 2;
 const MAX_SPEED = 1.5;
+const SCROLL_FORCE = 0.03;
+const SCROLL_MAX_DELTA = 80;
+const STREAK_MIN_SPEED = 0.9;
+const STREAK_SCALE = 8;
+const MAX_STREAK = 14;
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
@@ -32,6 +37,7 @@ function StarfieldBackground() {
     let running = false;
     let lastTime = 0;
     let resizeTimer = 0;
+    let lastScrollY = 0;
 
     const pointer = {
       x: 0,
@@ -84,8 +90,25 @@ function StarfieldBackground() {
 
       for (const particle of particles) {
         const twinkle = 0.85 + Math.sin(now * 0.001 + particle.phase) * 0.15;
+        const speed = Math.hypot(particle.vx, particle.vy);
+
         ctx.globalAlpha = particle.alpha * twinkle;
         ctx.fillStyle = colors[particle.color];
+
+        // Fast dust (usually from scrolling) stretches into a short comet trail.
+        if (speed > STREAK_MIN_SPEED) {
+          const streak = Math.min(speed * STREAK_SCALE, MAX_STREAK);
+          ctx.strokeStyle = colors[particle.color];
+          ctx.lineWidth = particle.radius * 1.4;
+          ctx.beginPath();
+          ctx.moveTo(
+            particle.x - (particle.vx / speed) * streak,
+            particle.y - (particle.vy / speed) * streak
+          );
+          ctx.lineTo(particle.x, particle.y);
+          ctx.stroke();
+        }
+
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
         ctx.fill();
@@ -179,6 +202,12 @@ function StarfieldBackground() {
       const step = clamp(dt / 16.667, 0.25, 2);
       const damping = Math.pow(0.986, step);
 
+      // Scroll velocity feeds the field so the page feels like it is moving
+      // through dust. Deltas are per-frame and clamped to avoid jump spikes.
+      const scrollY = window.scrollY || window.pageYOffset || 0;
+      const scrollDelta = clamp(scrollY - lastScrollY, -SCROLL_MAX_DELTA, SCROLL_MAX_DELTA);
+      lastScrollY = scrollY;
+
       // Ease the cursor so the field has a little weight behind it.
       const ease = 1 - Math.pow(0.78, step);
       const nextX = pointer.x + (pointer.targetX - pointer.x) * ease;
@@ -200,6 +229,12 @@ function StarfieldBackground() {
           0.0012 *
           particle.depth *
           step;
+
+        // Scrolling down (positive delta) drives the dust upward past the
+        // viewer; nearer (deeper) particles react more for parallax.
+        if (scrollDelta !== 0) {
+          particle.vy -= scrollDelta * SCROLL_FORCE * particle.depth * step;
+        }
 
         if (pointer.active && pointerQuery.matches) {
           const dx = particle.x - pointer.x;
@@ -262,6 +297,7 @@ function StarfieldBackground() {
       if (running || motionQuery.matches || document.hidden) return;
       running = true;
       lastTime = performance.now();
+      lastScrollY = window.scrollY || window.pageYOffset || 0;
       frame = requestAnimationFrame(tick);
     }
 

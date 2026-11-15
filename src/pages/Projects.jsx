@@ -1,45 +1,28 @@
 import { useState } from "react";
 import projectsData, { categoryLabels } from "../data/projects";
 import ProjectCard from "../components/ProjectCard";
+import Inertial, { FocusInertial } from "../components/Inertial";
 import "../styles/projects.css";
 
-const VC_FILTERS = [
-  { value: 0, label: "Partly vibecoded" },
-  { value: 1, label: "Mostly vibecoded" },
-];
+const categories = Object.keys(categoryLabels);
 
 function Projects() {
   const [filter, setFilter] = useState("all");
-  const [vcFilters, setVcFilters] = useState([]);
 
-  const categories = [...new Set(projectsData.map((project) => project.category))];
-
-  const toggleVcFilter = (value) => {
-    setVcFilters((current) =>
-      current.includes(value)
-        ? current.filter((item) => item !== value)
-        : [...current, value]
-    );
-  };
-
-  const filteredProjects = projectsData.filter((project) => {
-    const matchesCategory = filter === "all" || project.category === filter;
-    const matchesVc = vcFilters.length === 0 || vcFilters.includes(project.vc);
-
-    return matchesCategory && matchesVc;
-  });
+  const filteredProjects = projectsData.filter(
+    (project) => filter === "all" || project.category === filter
+  );
 
   return (
     <div>
-      <header className="page-head">
+      <Inertial as="header" className="page-head inertial-block" depth={0.8} lag={5}>
         <span className="eyebrow">Work</span>
         <h1 className="page-title">Projects</h1>
         <p className="page-subtitle">
           Experiments, coursework and things built for fun. Some shipped, some
-          still growing — filter by category or by how much of them came from a
-          prompt.
+          still growing — filter by category.
         </p>
-      </header>
+      </Inertial>
 
       <div className="filters">
         <div className="filter-row">
@@ -66,25 +49,6 @@ function Projects() {
             </button>
           ))}
         </div>
-
-        <div className="filter-row">
-          <span className="filter-label">Origin</span>
-          {VC_FILTERS.map((option) => (
-            <button
-              key={option.value}
-              type="button"
-              className={
-                vcFilters.includes(option.value)
-                  ? "filter-button active"
-                  : "filter-button"
-              }
-              onClick={() => toggleVcFilter(option.value)}
-              aria-pressed={vcFilters.includes(option.value)}
-            >
-              {option.label}
-            </button>
-          ))}
-        </div>
       </div>
 
       <div className="results-bar">
@@ -92,14 +56,11 @@ function Projects() {
           {filteredProjects.length}{" "}
           {filteredProjects.length === 1 ? "project" : "projects"}
         </span>
-        {(filter !== "all" || vcFilters.length > 0) && (
+        {filter !== "all" && (
           <button
             type="button"
             className="clear-filters"
-            onClick={() => {
-              setFilter("all");
-              setVcFilters([]);
-            }}
+            onClick={() => setFilter("all")}
           >
             Clear filters ✕
           </button>
@@ -109,7 +70,9 @@ function Projects() {
       {filteredProjects.length > 0 ? (
         <div className="projects-grid">
           {filteredProjects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
+            <FocusInertial key={project.id} depth={1} lag={9} tilt={1.2}>
+              <ProjectCard project={project} />
+            </FocusInertial>
           ))}
         </div>
       ) : (

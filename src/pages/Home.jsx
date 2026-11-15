@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import Hero from "../components/Hero";
 import Skills from "../components/Skills";
+import FeaturedProjects from "../components/FeaturedProjects";
+import Inertial from "../components/Inertial";
 import VisitorCounter from "../components/VisitorCounter";
 
 function Home() {
@@ -20,9 +22,10 @@ function Home() {
   return (
     <div className="home">
       <Hero />
+      <FeaturedProjects />
       <Skills />
 
-      <section className="cta">
+      <Inertial as="section" className="cta inertial-block" depth={0.7} lag={6}>
         <h2>Let&apos;s build something together</h2>
         <p>
           I&apos;m open to internships, freelance work and side projects. If you
@@ -36,7 +39,7 @@ function Home() {
             Browse projects
           </Link>
         </div>
-      </section>
+      </Inertial>
 
       <VisitorCounter />
     </div>

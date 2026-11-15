@@ -1,3 +1,4 @@
+import Inertial from "../components/Inertial";
 import "../styles/contact.css";
 
 const channels = [
@@ -30,7 +31,7 @@ const channels = [
 function Contact() {
   return (
     <div>
-      <header className="page-head">
+      <Inertial as="header" className="page-head inertial-block" depth={0.8} lag={5}>
         <span className="eyebrow">Contact</span>
         <h1 className="page-title">Let&apos;s talk</h1>
         <p className="page-subtitle">
@@ -38,24 +39,30 @@ function Contact() {
           something I built — my inbox is open and I usually reply within a day
           or two.
         </p>
-      </header>
+      </Inertial>
 
       <div className="contact-grid">
         {channels.map((channel) => (
-          <a
+          <Inertial
             key={channel.label}
-            className="contact-card card"
-            href={channel.href}
-            target={channel.href.startsWith("mailto:") ? undefined : "_blank"}
-            rel={channel.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
+            className="inertial-item"
+            depth={0.7}
+            lag={6}
           >
-            <span className="label">{channel.label}</span>
-            <span className="value">{channel.value}</span>
-            <span className="hint">{channel.hint}</span>
-            <span className="arrow" aria-hidden="true">
-              ↗
-            </span>
-          </a>
+            <a
+              className="contact-card card"
+              href={channel.href}
+              target={channel.href.startsWith("mailto:") ? undefined : "_blank"}
+              rel={channel.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
+            >
+              <span className="label">{channel.label}</span>
+              <span className="value">{channel.value}</span>
+              <span className="hint">{channel.hint}</span>
+              <span className="arrow" aria-hidden="true">
+                ↗
+              </span>
+            </a>
+          </Inertial>
         ))}
       </div>
 

@@ -4,6 +4,7 @@
 }
 .inertial-item > :not(.focus-glow) {
   width: 100%;
+  height: 100%;
 }
 
 .inertial-block {
@@ -18,6 +19,7 @@
 }
 .inertial-focus > :not(.focus-glow) {
   width: 100%;
+  height: 100%;
 }
 
 .focus-glow {

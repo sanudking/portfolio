@@ -207,10 +207,11 @@ a:hover {
 }
 .eyebrow::before {
   content: "";
-  width: 22px;
+  width: calc(22px * var(--line-stretch, 1));
   height: 2px;
   border-radius: 2px;
   background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transition: width 0.12s linear;
 }
 
 .page-head {
@@ -416,6 +417,12 @@ button,
   box-shadow: inset 0 0 0 1px var(--border);
 }
 .nav-cta {
+  flex-shrink: 0;
+}
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   flex-shrink: 0;
 }
 
@@ -624,7 +631,7 @@ button,
   .brand {
     order: 0;
   }
-  .nav-cta {
+  .nav-actions {
     order: 1;
     margin-left: auto;
   }

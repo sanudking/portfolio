@@ -7,9 +7,6 @@ function ProjectCard({ project }) {
         <span className="badge">
           {categoryLabels[project.category] ?? project.category}
         </span>
-        <span className={`badge alt ${project.vc ? "" : "soft"}`}>
-          {project.vc ? "Mostly vibecoded" : "Partly vibecoded"}
-        </span>
       </div>
 
       <h3>{project.title}</h3>
@@ -22,9 +19,11 @@ function ProjectCard({ project }) {
       </ul>
 
       <div className="project-links">
-        <a href={project.repo} target="_blank" rel="noopener noreferrer">
-          GitHub <span aria-hidden="true">↗</span>
-        </a>
+        {project.repo && (
+          <a href={project.repo} target="_blank" rel="noopener noreferrer">
+            GitHub <span aria-hidden="true">↗</span>
+          </a>
+        )}
         {project.live && (
           <a href={project.live} target="_blank" rel="noopener noreferrer">
             Live <span aria-hidden="true">↗</span>

@@ -1,14 +1,16 @@
+import Inertial from "../components/Inertial";
+
 function Accomplishments() {
   return (
     <div>
-      <header className="page-head">
+      <Inertial as="header" className="page-head inertial-block" depth={0.8} lag={5}>
         <span className="eyebrow">Milestones</span>
         <h1 className="page-title">Accomplishments</h1>
         <p className="page-subtitle">
           A short list of things I&apos;m proud of — academic, competitive and
           project milestones.
         </p>
-      </header>
+      </Inertial>
 
       <div className="empty-state">
         <h2>Write-up coming soon</h2>

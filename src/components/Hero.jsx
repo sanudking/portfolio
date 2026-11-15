@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
+import Inertial from "./Inertial";
 import "@google/model-viewer";
 import "../styles/hero.css";
 
 const MotionDiv = motion.div;
+
+const RESUME_URL =
+  "https://drive.google.com/file/d/15cMswfi4aUzp7klr28q4yRgJ3a8tXWkq/view?usp=sharing";
 
 const PLANETS = [
   {
@@ -118,6 +122,14 @@ function Hero() {
           >
             Contact me
           </button>
+          <a
+            className="btn btn-ghost"
+            href={RESUME_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Resume <span aria-hidden="true">↗</span>
+          </a>
         </div>
 
         <dl className="hero-meta">
@@ -132,7 +144,7 @@ function Hero() {
         </dl>
       </MotionDiv>
 
-      <div className="hero-right">
+      <Inertial as="div" className="hero-right" depth={1.2} lag={16}>
         <div className="viewer-container">
           <div className="viewer-glow" aria-hidden="true" />
           <div className="viewer-ring" aria-hidden="true" />
@@ -177,7 +189,7 @@ function Hero() {
             ))}
           </div>
         </div>
-      </div>
+      </Inertial>
     </section>
   );
 }
