@@ -1,40 +1,44 @@
+import { Link } from "react-router-dom";
+import { useEffect } from "react";
 import Hero from "../components/Hero";
 import Skills from "../components/Skills";
 import VisitorCounter from "../components/VisitorCounter";
-import { useEffect } from "react";
 
 function Home() {
+  // Deep links like /#skills need a manual scroll: the target section only
+  // exists after React has rendered the page.
   useEffect(() => {
-    const scriptSources = [
-      "https://elfsightcdn.com/platform.js",
-      "https://counter.websiteout.com/js/5/4/0/0",
-      "https://counter.websiteout.com/js/17/4/0/0",
-    ];
-
-    const scripts = scriptSources.map((src, index) => {
-      const script = document.createElement("script");
-      script.src = src;
-      script.type = "text/javascript";
-      script.async = index === 0;
-      document.body.appendChild(script);
-      return script;
+    if (window.location.hash !== "#skills") return;
+    const frame = window.requestAnimationFrame(() => {
+      document
+        .getElementById("skills")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
     });
-
-    return () => {
-      scripts.forEach((script) => script.remove());
-    };
+    return () => window.cancelAnimationFrame(frame);
   }, []);
 
   return (
     <div className="home">
-      <h1>Portfolio</h1>
       <Hero />
-      <Skills/>
-      <div
-        className="elfsight-app-813ddc6e-f62b-4aa2-92ea-7b3073a024b5"
-        data-elfsight-app-lazy
-      ></div>
-      <VisitorCounter/>
+      <Skills />
+
+      <section className="cta">
+        <h2>Let&apos;s build something together</h2>
+        <p>
+          I&apos;m open to internships, freelance work and side projects. If you
+          have an idea, I&apos;d love to hear about it.
+        </p>
+        <div className="cta-actions">
+          <Link className="btn btn-primary" to="/contact">
+            Get in touch
+          </Link>
+          <Link className="btn btn-ghost" to="/projects">
+            Browse projects
+          </Link>
+        </div>
+      </section>
+
+      <VisitorCounter />
     </div>
   );
 }

@@ -1,8 +1,12 @@
 import { useState } from "react";
-import "../styles/projects.css";
-import projectsData from "../data/projects";
+import projectsData, { categoryLabels } from "../data/projects";
 import ProjectCard from "../components/ProjectCard";
+import "../styles/projects.css";
 
+const VC_FILTERS = [
+  { value: 0, label: "Partly vibecoded" },
+  { value: 1, label: "Mostly vibecoded" },
+];
 
 function Projects() {
   const [filter, setFilter] = useState("all");
@@ -18,68 +22,104 @@ function Projects() {
     );
   };
 
-  const isCategoryActive = (category) => filter === category;
-  const isVcActive = (value) => vcFilters.includes(value);
-
-
-
   const filteredProjects = projectsData.filter((project) => {
     const matchesCategory = filter === "all" || project.category === filter;
     const matchesVc = vcFilters.length === 0 || vcFilters.includes(project.vc);
 
     return matchesCategory && matchesVc;
   });
+
   return (
-    <div style={{ width: "100%" }}>
-      <h1>Projects Page</h1>
+    <div>
+      <header className="page-head">
+        <span className="eyebrow">Work</span>
+        <h1 className="page-title">Projects</h1>
+        <p className="page-subtitle">
+          Experiments, coursework and things built for fun. Some shipped, some
+          still growing — filter by category or by how much of them came from a
+          prompt.
+        </p>
+      </header>
 
-      <div style={{paddingLeft:"70px"}}>
-      <div style={{display: "flex", gap: "10px", padding: "10px"}}>
-        <button
-          className={filter === "all" ? "filter-button active" : "filter-button"}
-          onClick={() => setFilter("all")}
-        >
-          All projects
-        </button>
-        {categories.map((category) => (
+      <div className="filters">
+        <div className="filter-row">
+          <span className="filter-label">Category</span>
           <button
-            key={category}
-            className={isCategoryActive(category) ? "filter-button active" : "filter-button"}
-            onClick={() => setFilter(category)}
+            type="button"
+            className={filter === "all" ? "filter-button active" : "filter-button"}
+            onClick={() => setFilter("all")}
+            aria-pressed={filter === "all"}
           >
-            {category.charAt(0).toUpperCase() + category.slice(1)}
+            All projects
           </button>
-        ))}
-      </div><br/>
-      <div style={{display: "flex", gap: "10px", padding: "10px"}}>
-        <button
-          className={isVcActive(0) ? "filter-button active" : "filter-button"}
-          onClick={() => toggleVcFilter(0)}
-          aria-pressed={vcFilters.includes(0)}
-        >
-          Partially Vibe coded
-        </button>
-        <button
-          className={isVcActive(1) ? "filter-button active" : "filter-button"}
-          onClick={() => toggleVcFilter(1)}
-          aria-pressed={vcFilters.includes(1)}
-        >
-          Mostly Vibecoded
-        </button>
+          {categories.map((category) => (
+            <button
+              key={category}
+              type="button"
+              className={
+                filter === category ? "filter-button active" : "filter-button"
+              }
+              onClick={() => setFilter(category)}
+              aria-pressed={filter === category}
+            >
+              {categoryLabels[category] ?? category}
+            </button>
+          ))}
+        </div>
 
+        <div className="filter-row">
+          <span className="filter-label">Origin</span>
+          {VC_FILTERS.map((option) => (
+            <button
+              key={option.value}
+              type="button"
+              className={
+                vcFilters.includes(option.value)
+                  ? "filter-button active"
+                  : "filter-button"
+              }
+              onClick={() => toggleVcFilter(option.value)}
+              aria-pressed={vcFilters.includes(option.value)}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
       </div>
-      
-      
+
+      <div className="results-bar">
+        <span>
+          {filteredProjects.length}{" "}
+          {filteredProjects.length === 1 ? "project" : "projects"}
+        </span>
+        {(filter !== "all" || vcFilters.length > 0) && (
+          <button
+            type="button"
+            className="clear-filters"
+            onClick={() => {
+              setFilter("all");
+              setVcFilters([]);
+            }}
+          >
+            Clear filters ✕
+          </button>
+        )}
       </div>
-      <div className="projects-container">
+
+      {filteredProjects.length > 0 ? (
         <div className="projects-grid">
           {filteredProjects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </div>
-      </div>
-
+      ) : (
+        <div className="empty-state">
+          <h2>No projects match those filters</h2>
+          <p>Try a different category or clear the filters.</p>
+        </div>
+      )}
     </div>
   );
 }
+
 export default Projects;

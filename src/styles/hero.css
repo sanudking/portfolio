@@ -1,132 +1,230 @@
-/* --- Your Original Hero Structure & Typography --- */
 .hero {
-  min-height: 50vh;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
   align-items: center;
-  padding: 0 80px;
-  gap: 40px; /* Added padding separation between text column and 3D frame column */
+  gap: 56px;
+  min-height: min(70vh, 620px);
+  padding: 8px 0 32px;
 }
 
 .hero-left {
-  max-width: 600px;
+  max-width: 560px;
 }
 
-.hero-right {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+.hero-tag {
+  display: inline-flex;
   align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+.hero-tag .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.15);
 }
 
-.hero h1 {
-  font-size: 3.5rem;
-  line-height: 1.2;
+.hero-title {
+  margin-bottom: 16px;
+  font-size: clamp(2.6rem, 6vw, 4.1rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
 }
 
-.hero p {
-  margin-top: 15px;
-  font-size: 1.2rem;
-  opacity: 0.8;
+.hero-desc {
+  max-width: 500px;
+  font-size: clamp(1rem, 1.6vw, 1.12rem);
+  color: var(--muted);
 }
 
 .hero-buttons {
-  margin-top: 25px;
   display: flex;
-  gap: 15px;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
 }
 
-/* Your Original Global Button Scaling Transitions Style */
-.hero button {
-  padding: 10px 20px;
-  cursor: pointer;
-  border: none;
-  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  margin: 40px 0 0;
+  padding-top: 22px;
+  border-top: 1px solid var(--border);
+}
+.hero-meta dt {
+  margin-bottom: 2px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.hero-meta dd {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
-.hero button:hover {
-  transform: scale(1.05);
+/* ---------- 3D viewer ---------- */
+.hero-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
 }
 
-
-/* --- New 3D Stacking and Fade Viewport Styles --- */
-
-/* Absolute bounding boundary container workspace for 3D elements */
-/* Update your existing .viewer-container rule to use transparent */
 .viewer-container {
   position: relative;
   width: 100%;
-  max-width: 450px; 
-  height: 400px; 
-  margin: 0 auto; 
-  background-color: transparent; /* Changed from #f0f0f0 */
-  border-radius: 8px;
-  overflow: hidden;
+  max-width: 430px;
+  aspect-ratio: 1 / 1;
 }
 
-/* Add a background-color rule to your existing .spin-viewer selector */
+.viewer-glow {
+  position: absolute;
+  inset: 16%;
+  border-radius: 50%;
+  background: var(--planet);
+  filter: blur(72px);
+  opacity: 0.28;
+  transition: background 0.6s ease;
+}
+
+.viewer-ring {
+  position: absolute;
+  inset: 4%;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.viewer-ring::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--planet);
+  box-shadow: 0 0 12px 2px var(--planet);
+  opacity: 0.9;
+  transition: background 0.6s ease, box-shadow 0.6s ease;
+}
+
 .spin-viewer {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
-  background-color: transparent; /* Added to override internal viewer defaults */
+  background-color: transparent;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
   transition: opacity 0.6s ease, visibility 0.6s ease;
 }
-
-
-/* Active model selection fade rules */
 .spin-viewer.visible-model {
   opacity: 1;
   visibility: visible;
-  pointer-events: auto; /* Active visible asset regains responsive trackpad controls */
+  pointer-events: auto;
 }
 
-/* Structure formatting adjustments for the choice target panels layout */
 .controls-panel {
-  margin-top: 20px;
   display: flex;
+  align-items: center;
   justify-content: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.controls-label {
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 .btn-container {
   display: flex;
-  gap: 10px;
+  gap: 6px;
+  padding: 6px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
-/* Specific properties override styling profile for your planet select elements */
 .select-btn {
-  font-weight: bold;
-  border: 1px solid #ccc !important; /* Forces layout borders on text tags safely */
-  background: #2e2424;
-  border-radius: 4px;
-  font-size: 14px;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
 }
-
 .select-btn:hover {
-  background: #2b1c1c;
+  background: var(--surface-hover);
+  transform: scale(1.06);
 }
-
-/* Solid blue background highlights state configuration for current active choice selectors */
 .select-btn.selected-target {
-  background-color: #007bff;
-  color: white;
-  border-color: #0056b3 !important;
+  border-color: var(--border-strong);
+  background: rgba(255, 255, 255, 0.14);
+}
+.select-btn img {
+  width: 22px;
+  height: 22px;
+  opacity: 0.85;
+}
+.select-btn.selected-target img {
+  opacity: 1;
 }
 
-@media screen and (max-width:800px){
-  .hero{
-    min-height: 50vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 80px;
-  gap: 40px;
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 36px;
+    min-height: auto;
+    padding-bottom: 8px;
   }
-  
+  .hero-left {
+    max-width: 100%;
+  }
+  .hero-desc {
+    max-width: 100%;
+  }
+  .hero-right {
+    order: 0;
+  }
+  .viewer-container {
+    max-width: 320px;
+  }
+}
+
+@media (max-width: 520px) {
+  .hero-meta {
+    gap: 20px;
+    margin-top: 30px;
+  }
+  .viewer-container {
+    max-width: 260px;
+  }
+  .hero-buttons .btn {
+    flex: 1 1 100%;
+  }
 }

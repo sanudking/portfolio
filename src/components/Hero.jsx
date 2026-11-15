@@ -1,139 +1,180 @@
-import { useState, useEffect } from "react";
-import "../styles/hero.css"; 
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-
-// 1. Import model-viewer side-effects to register custom elements globally
+import { motion, useReducedMotion } from "framer-motion";
 import "@google/model-viewer";
+import "../styles/hero.css";
+
+const MotionDiv = motion.div;
+
+const PLANETS = [
+  {
+    id: "earth",
+    label: "Earth",
+    model: "/models/earth.glb",
+    icon: "/images/earth.svg",
+    accent: "#38bdf8",
+    bg: "#08080c",
+  },
+  {
+    id: "sun",
+    label: "Sun",
+    model: "/models/sun.glb",
+    icon: "/images/sun.svg",
+    accent: "#fbbf24",
+    bg: "#0d0906",
+  },
+  {
+    id: "moon",
+    label: "Moon",
+    model: "/models/moon.glb",
+    icon: "/images/moon.svg",
+    accent: "#e2e8f0",
+    bg: "#06080f",
+  },
+];
+
+function getSavedPlanet() {
+  try {
+    const saved = localStorage.getItem("planet");
+    return PLANETS.find((planet) => planet.id === saved) ?? PLANETS[0];
+  } catch {
+    return PLANETS[0];
+  }
+}
 
 function Hero() {
   const navigate = useNavigate();
-  
-  // 2. State to track the currently selected active target model
-  const [activeTarget, setActiveTarget] = useState("earth");
-  const [color,setColor]=useState("deepskyblue");
+  const shouldReduceMotion = useReducedMotion();
+  const [activePlanet, setActivePlanet] = useState(getSavedPlanet);
 
-  const handleSelection = (newTarget) => {
-    if (activeTarget === newTarget) return;
+  // The chosen planet drives the whole site theme, not just the 3D model.
+  useEffect(() => {
+    document.documentElement.dataset.theme = activePlanet.id;
+    try {
+      localStorage.setItem("planet", activePlanet.id);
+    } catch {
+      // Storage can be unavailable (private mode) — the theme still applies.
+    }
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute("content", activePlanet.bg);
+  }, [activePlanet]);
 
-    // 3. Find and query the custom nodes matching our operational conditions
-    const viewers = document.querySelectorAll(".spin-viewer");
+  const handleSelection = (planet) => {
+    if (activePlanet.id === planet.id) return;
 
-    viewers.forEach((v) => {
-      const name = v.getAttribute("data-name");
-      // If it's the model we are leaving or the model we are entering, spin it!
-      if (name === activeTarget || name === newTarget) {
-        if (typeof v.getCameraOrbit === "function") {
-          const o = v.getCameraOrbit();
-          const targetTheta = o.theta + Math.PI - 0.001; // Pure clockwise tie-breaker math
-          v.cameraOrbit = `${targetTheta}rad ${o.phi}rad ${o.radius}m`;
-        }
+    // Spin the model we leave and the model we enter for a smooth hand-off.
+    document.querySelectorAll(".spin-viewer").forEach((viewer) => {
+      const name = viewer.getAttribute("data-name");
+      if (name !== activePlanet.id && name !== planet.id) return;
+
+      if (typeof viewer.getCameraOrbit === "function") {
+        const orbit = viewer.getCameraOrbit();
+        const targetTheta = orbit.theta + Math.PI - 0.001;
+        viewer.cameraOrbit = `${targetTheta}rad ${orbit.phi}rad ${orbit.radius}m`;
       }
     });
 
-    // Update state to trigger structural fade-in/fade-out classes
-    setActiveTarget(newTarget);
+    setActivePlanet(planet);
   };
 
   return (
-    <section className="hero">
-      <motion.div 
-        className="hero-left" 
-        initial={{ opacity: 0, y: 50 }} 
-        animate={{ opacity: 1, y: 0 }} 
-        transition={{ duration: 0.8 }}
+    <section className="hero" style={{ "--planet": activePlanet.accent }}>
+      <MotionDiv
+        className="hero-left"
+        initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={
+          shouldReduceMotion ? { duration: 0 } : { duration: 0.6, ease: "easeOut" }
+        }
       >
-        <h1 > Hi, I'm <br /> <span style={{color:color,   transition: 'color 0.5s ease-in-out', 
-}}>Sudhanshu</span> </h1>
-        <p> 
-          A Full stack developer , 
-          2nd Year CSE undergrad at NIT Jalandhar 
-        </p>
-        <div className="hero-buttons">
-          <button onClick={() => navigate("/projects")}> View Projects </button>
-          <button onClick={() => navigate("/contact")}> Contact Me </button>
-        </div>
-      </motion.div>
+        <span className="hero-tag">
+          <span className="dot" aria-hidden="true" />
+          Open to internships & collaborations
+        </span>
 
-      {/* 4. Integrated 3D Portfolio Showcase Element into hero-right */}
+        <h1 className="hero-title">
+          Hi, I&apos;m <span className="gradient-text">Sudhanshu</span>
+        </h1>
+
+        <p className="hero-desc">
+          Full-stack developer and 2nd-year CSE undergrad at NIT Jalandhar. I
+          build fast, accessible web apps — from React interfaces to the APIs
+          behind them.
+        </p>
+
+        <div className="hero-buttons">
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => navigate("/projects")}
+          >
+            View projects
+          </button>
+          <button
+            type="button"
+            className="btn btn-ghost"
+            onClick={() => navigate("/contact")}
+          >
+            Contact me
+          </button>
+        </div>
+
+        <dl className="hero-meta">
+          <div>
+            <dt>Focus</dt>
+            <dd>React · Node · MongoDB</dd>
+          </div>
+          <div>
+            <dt>Based in</dt>
+            <dd>Jalandhar, India</dd>
+          </div>
+        </dl>
+      </MotionDiv>
+
       <div className="hero-right">
         <div className="viewer-container">
-          <model-viewer 
-            className={`spin-viewer ${activeTarget === "earth" ? "visible-model" : ""}`}
-            data-name="earth" 
-            src="/models/earth.glb"
-            alt="A 3D model of Earth" 
-            disable-zoom 
-            disable-pan 
-            camera-controls 
-            interaction-prompt="none" 
-            interpolation-decay="200" 
-            min-camera-orbit="auto 90deg auto" 
-            max-camera-orbit="auto 90deg auto"
-          />
+          <div className="viewer-glow" aria-hidden="true" />
+          <div className="viewer-ring" aria-hidden="true" />
 
-          <model-viewer 
-            className={`spin-viewer ${activeTarget === "sun" ? "visible-model" : ""}`}
-            data-name="sun" 
-            src="/models/sun.glb" 
-            alt="A 3D model of the Sun" 
-            disable-zoom 
-            disable-pan 
-            camera-controls 
-            interaction-prompt="none" 
-            interpolation-decay="200" 
-            min-camera-orbit="auto 90deg auto" 
-            max-camera-orbit="auto 90deg auto"
-          />
-
-          <model-viewer 
-            className={`spin-viewer ${activeTarget === "moon" ? "visible-model" : ""}`}
-            data-name="moon" 
-            src="/models/moon.glb" 
-            alt="A 3D model of the Moon" 
-            disable-zoom 
-            disable-pan 
-            camera-controls 
-            interaction-prompt="none" 
-            interpolation-decay="200" 
-            min-camera-orbit="auto 90deg auto" 
-            max-camera-orbit="auto 90deg auto"
-          />
+          {PLANETS.map((planet) => (
+            <model-viewer
+              key={planet.id}
+              className={`spin-viewer ${
+                activePlanet.id === planet.id ? "visible-model" : ""
+              }`}
+              data-name={planet.id}
+              src={planet.model}
+              alt={`A 3D model of ${planet.label}`}
+              disable-zoom
+              disable-pan
+              camera-controls
+              interaction-prompt="none"
+              interpolation-decay="200"
+              min-camera-orbit="auto 90deg auto"
+              max-camera-orbit="auto 90deg auto"
+            />
+          ))}
         </div>
 
-        {/* 5. Integrated selection dashboard row */}
-        <div class="controls-panel">
-          <div className="btn-container">
-            <button 
-              className={`select-btn ${activeTarget === "earth" ? "selected-target" : ""}`} 
-              onClick={() => {handleSelection("earth");
-                              setColor("deepskyblue");
-               }}
-            >
-                                  <img src="/images/earth.svg" alt="icon" width="20" height="20" />
-
-              
-            </button>
-            <button 
-              className={`select-btn ${activeTarget === "sun" ? "selected-target" : ""}`} 
-              onClick={() => {handleSelection("sun");
-                              setColor("goldenrod");
-               }}
-            >
-                                  <img src="/images/sun.svg" alt="icon" width="20" height="20" />
-
-              
-            </button>
-            <button 
-              className={`select-btn ${activeTarget === "moon" ? "selected-target" : ""}`} 
-              onClick={() => {handleSelection("moon");
-                              setColor("gray");
-               }}
-            >
-                    <img src="/images/moon.svg" alt="icon" width="20" height="20" />
-
-              
-            </button>
+        <div className="controls-panel">
+          <span className="controls-label">Theme</span>
+          <div className="btn-container" role="group" aria-label="Choose a theme">
+            {PLANETS.map((planet) => (
+              <button
+                key={planet.id}
+                type="button"
+                className={`select-btn ${
+                  activePlanet.id === planet.id ? "selected-target" : ""
+                }`}
+                onClick={() => handleSelection(planet)}
+                aria-pressed={activePlanet.id === planet.id}
+                aria-label={`${planet.label} theme`}
+                title={`${planet.label} theme`}
+              >
+                <img src={planet.icon} alt="" width="22" height="22" />
+              </button>
+            ))}
           </div>
         </div>
       </div>

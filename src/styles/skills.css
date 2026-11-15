@@ -1,44 +1,48 @@
 .skills-section {
-  padding: 3rem 1rem;
-  max-width: 1100px; /* Increased maximum width of the section */
-  margin: 0 auto;
+  padding-top: 88px;
 }
 
-.skills-section h1 {
-  text-align: center;
-  margin-bottom: 2.5rem;
-  font-size: 2.5rem;
-  color: #ffffff;
-}
-
-/* 3 uniform columns with gap */
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 equal-width columns */
-  gap: 1.75rem; /* Consistent spacing between all items */
-  justify-content: center;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 14px;
 }
 
-/* Ensure IconButton (or button wrapper) spans full column width with uniform height */
-.skills-grid > * {
-  width: 100%;             /* Fills the column width */
-  min-height: 70px;        /* Fixed uniform height for all cards */
+.skill-card {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 0.75rem 1.5rem; /* Generous padding inside cards */
-  box-sizing: border-box;
+  gap: 14px;
+  padding: 16px 18px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.skill-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+}
+.skill-card img {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+}
+/* Express and other black-only devicons need to be inverted on dark. */
+.skill-card img.invert {
+  filter: invert(1);
+  opacity: 0.9;
 }
 
-/* Responsive adjustments for mobile devices */
-@media (max-width: 768px) {
+@media (max-width: 520px) {
   .skills-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
   }
-}
-
-@media (max-width: 500px) {
-  .skills-grid {
-    grid-template-columns: 1fr;
+  .skill-card {
+    padding: 12px 14px;
+    gap: 10px;
+    font-size: 0.88rem;
+  }
+  .skill-card img {
+    width: 24px;
+    height: 24px;
   }
 }

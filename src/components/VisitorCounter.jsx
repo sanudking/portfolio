@@ -1,40 +1,55 @@
-import React, { useEffect, useState } from 'react';
-import { Counter } from 'counterapi';
+import { useEffect, useState } from "react";
+import { Counter } from "counterapi";
 
-const counter = new Counter({ workspace: 'my-portfolio-workspace' });
+const counter = new Counter({ workspace: "my-portfolio-workspace" });
 
 const VisitorCounter = () => {
   const [views, setViews] = useState(null);
-  const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
 
-	useEffect(() => {
-	  async function trackVisit() {
-	    try {
-	      const result = await counter.up('portfolio-page-views');
-	      console.log('CounterAPI Response:', result);
+  useEffect(() => {
+    let cancelled = false;
 
-	      const countValue = result.value ?? result.data?.value ?? result.data?.up_count ?? result.data?.count ?? result.count;
-	      setViews(countValue);
-	    } catch (error) {
-	      console.error('Error fetching visitor count:', error);
-	      setError('Unavailable');
-	    } finally {
-	      setLoading(false);
-	    }
-	  }
+    async function trackVisit() {
+      try {
+        const result = await counter.up("portfolio-page-views");
+        const countValue =
+          result.value ??
+          result.data?.value ??
+          result.data?.up_count ??
+          result.data?.count ??
+          result.count;
+        if (!cancelled) setViews(countValue);
+      } catch (err) {
+        console.error("Error fetching visitor count:", err);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
 
-	  trackVisit();
-	}, []);
+    trackVisit();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  if (!loading && (views === null || views === undefined)) {
+    // The counter service is optional — don't leave a broken widget on the page.
+    return null;
+  }
 
   return (
-    <div>
+    <p className="visitor-count" aria-live="polite">
+      <span aria-hidden="true">👀</span>
       {loading ? (
-        <p>Loading visits...</p>
+        "Counting visits…"
       ) : (
-        <p>👀 Total Portfolio Visits: <strong>{views ?? error ?? 'N/A'}</strong></p>
+        <>
+          Total portfolio visits: <strong>{views}</strong>
+        </>
       )}
-    </div>
+    </p>
   );
 };
 

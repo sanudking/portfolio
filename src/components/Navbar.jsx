@@ -1,23 +1,45 @@
-import { Link } from "react-router-dom";
-import Skills from "./Skills";
-import { HashLink } from "react-router-hash-link"; // 1. Import HashLink
+import { Link, NavLink } from "react-router-dom";
+import { HashLink } from "react-router-hash-link";
 
+const links = [
+  { to: "/", label: "Home", end: true },
+  { to: "/projects", label: "Projects" },
+  { to: "/journal", label: "Journal" },
+  { to: "/blogs", label: "Blog" },
+  { to: "/accomplishments", label: "Accomplishments" },
+];
 function Navbar() {
   return (
-    <nav style={{ display: "flex", gap: "10px", padding: "10px" ,alignItems:"center"}}>
-      
+    <header className="navbar">
+      <div className="navbar-inner">
+        <Link to="/" className="brand" aria-label="Sudhanshu Kumar — home">
+          <span className="brand-mark" aria-hidden="true">
+            SK
+          </span>
+          <span className="brand-name">Sudhanshu</span>
+        </Link>
 
-      <Link to="/">Home</Link>
-      <HashLink to="#skills">Skills</HashLink>
+        <nav className="nav-links" aria-label="Main navigation">
+          {links.slice(0, 2).map((link) => (
+            <NavLink key={link.to} to={link.to} end={link.end}>
+              {link.label}
+            </NavLink>
+          ))}
+          <HashLink smooth to="/#skills">
+            Skills
+          </HashLink>
+          {links.slice(2).map((link) => (
+            <NavLink key={link.to} to={link.to} end={link.end}>
+              {link.label}
+            </NavLink>
+          ))}
+        </nav>
 
-      <Link to="/projects">Projects</Link>
-      <Link to="/contact">Contact</Link>
-      <Link to="/journal">Journal</Link>
-
-      {/* <button onClick={() => setDarkMode(!darkMode)}>
-        {darkMode ? "Light" : "Dark"}
-      </button> */}
-    </nav>
+        <Link to="/contact" className="btn btn-primary btn-sm nav-cta">
+          Contact
+        </Link>
+      </div>
+    </header>
   );
 }
 
