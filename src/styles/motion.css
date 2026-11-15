@@ -1,0 +1,34 @@
+.inertial-item {
+  display: flex;
+  min-width: 0;
+}
+.inertial-item > :not(.focus-glow) {
+  width: 100%;
+}
+
+.inertial-block {
+  display: flow-root;
+  min-width: 0;
+}
+
+.inertial-focus {
+  position: relative;
+  display: flex;
+  min-width: 0;
+}
+.inertial-focus > :not(.focus-glow) {
+  width: 100%;
+}
+
+.focus-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  box-shadow:
+    0 0 26px var(--accent-shadow),
+    inset 0 0 18px var(--accent-soft);
+  opacity: 0;
+  pointer-events: none;
+}
