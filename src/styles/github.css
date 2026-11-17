@@ -1,0 +1,168 @@
+.github-section {
+  padding-top: 88px;
+  --cell: 11px;
+  --gap: 3px;
+}
+
+.github-card {
+  padding: 22px 24px 16px;
+}
+
+.github-body {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  padding-bottom: 4px;
+}
+
+.github-weekdays {
+  display: grid;
+  grid-template-rows: repeat(7, var(--cell));
+  gap: var(--gap);
+  /* Push the labels down past the month strip. */
+  padding-top: calc(1.05rem + 6px);
+  flex: 0 0 auto;
+}
+.github-weekdays span {
+  color: var(--muted);
+  font-size: 0.62rem;
+  line-height: var(--cell);
+  height: var(--cell);
+  white-space: nowrap;
+}
+
+.github-plot {
+  flex: 0 0 auto;
+}
+
+.github-months {
+  display: grid;
+  gap: var(--gap);
+  margin-bottom: 6px;
+  height: 1.05rem;
+}
+.github-months span {
+  color: var(--muted);
+  font-size: 0.62rem;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: visible;
+}
+
+.github-grid {
+  display: grid;
+  grid-template-rows: repeat(7, var(--cell));
+  grid-auto-flow: column;
+  gap: var(--gap);
+}
+
+.github-cell {
+  width: var(--cell);
+  height: var(--cell);
+  border-radius: 3px;
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--border);
+  transition:
+    box-shadow 0.18s ease,
+    transform 0.18s ease;
+}
+
+.github-cell[data-level="1"] {
+  background: color-mix(in srgb, var(--accent) 25%, transparent);
+  box-shadow: none;
+}
+.github-cell[data-level="2"] {
+  background: color-mix(in srgb, var(--accent) 45%, transparent);
+  box-shadow: none;
+}
+.github-cell[data-level="3"] {
+  background: color-mix(in srgb, var(--accent) 68%, transparent);
+  box-shadow: none;
+}
+.github-cell[data-level="4"] {
+  background: var(--accent);
+  box-shadow: none;
+}
+
+.github-grid .github-cell:hover {
+  box-shadow:
+    inset 0 0 0 1px var(--accent-border),
+    0 0 0 1px var(--accent-border);
+  transform: scale(1.15);
+}
+
+/* Skeleton keeps the exact final footprint so nothing shifts on load. */
+.github-grid[aria-label^="Loading"] .github-cell,
+.github-grid[aria-label^="Loading"] .github-cell[data-level="0"] {
+  opacity: 0.45;
+}
+
+.github-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.github-legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+.github-legend span:first-child {
+  margin-right: 4px;
+}
+.github-legend span:last-child {
+  margin-left: 4px;
+}
+
+.github-link {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.github-link:hover {
+  color: var(--accent-hover);
+  border-bottom-color: currentColor;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .github-cell {
+    transition: none;
+  }
+  .github-grid .github-cell:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .github-section {
+    padding-top: 56px;
+  }
+  .github-card {
+    padding: 18px 16px 14px;
+  }
+}
+
+@media (max-width: 520px) {
+  .github-section {
+    --cell: 9px;
+    --gap: 2px;
+  }
+  .github-footer {
+    gap: 10px;
+  }
+  .github-weekdays span,
+  .github-months span {
+    font-size: 0.56rem;
+  }
+}

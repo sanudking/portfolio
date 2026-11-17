@@ -4,6 +4,7 @@ import Hero from "../components/Hero";
 import Skills from "../components/Skills";
 import Education from "../components/Education";
 import ScholasticAchievements from "../components/ScholasticAchievements";
+import GitHubContributions from "../components/GitHubContributions";
 import Reading from "../components/Reading";
 import FeaturedProjects from "../components/FeaturedProjects";
 import Inertial from "../components/Inertial";
@@ -30,6 +31,7 @@ function Home() {
       <Skills />
       <Education />
       <ScholasticAchievements />
+      <GitHubContributions />
       <Reading />
 
       <Inertial as="section" className="cta inertial-block" depth={0.7} lag={6}>
