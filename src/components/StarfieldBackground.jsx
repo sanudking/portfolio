@@ -69,7 +69,7 @@ function StarfieldBackground() {
         vx: Math.cos(angle) * drift,
         vy: Math.sin(angle) * drift,
         depth,
-        radius: (0.5 + depth * 1.5) * 1.3,
+        radius: (0.5 + depth * 1.5) * 1.95,
         alpha: 0.16 + depth * 0.42,
         color: Math.random() < 0.7 ? 0 : 1,
         phase: Math.random() * Math.PI * 2,
