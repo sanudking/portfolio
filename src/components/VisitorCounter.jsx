@@ -1,28 +1,38 @@
 import { useEffect, useState } from "react";
-import { Counter } from "counterapi";
 
-const counter = new Counter({ workspace: "my-portfolio-workspace" });
+const API_BASE = "https://abacus.jasoncameron.dev";
+const NAMESPACE = "sanudking";
+const KEY = "portfolio-visits-2026";
+const TIMEOUT_MS = 8000;
 
 const VisitorCounter = () => {
   const [views, setViews] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), TIMEOUT_MS);
     let cancelled = false;
 
     async function trackVisit() {
       try {
-        const result = await counter.up("portfolio-page-views");
-        const countValue =
-          result.value ??
-          result.data?.value ??
-          result.data?.up_count ??
-          result.data?.count ??
-          result.count;
-        if (!cancelled) setViews(countValue);
+        const response = await fetch(
+          `${API_BASE}/hit/${NAMESPACE}/${KEY}`,
+          { signal: controller.signal }
+        );
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        const data = await response.json();
+        if (typeof data?.value !== "number") {
+          throw new Error("Unexpected counter payload");
+        }
+        if (!cancelled) setViews(data.value);
       } catch (err) {
-        console.error("Error fetching visitor count:", err);
+        if (!cancelled) {
+          console.error("Error fetching visitor count:", err);
+        }
       } finally {
+        clearTimeout(timeout);
         if (!cancelled) setLoading(false);
       }
     }
@@ -31,6 +41,8 @@ const VisitorCounter = () => {
 
     return () => {
       cancelled = true;
+      clearTimeout(timeout);
+      controller.abort();
     };
   }, []);
 
@@ -46,7 +58,7 @@ const VisitorCounter = () => {
         "Counting visits…"
       ) : (
         <>
-          Total portfolio visits: <strong>{views}</strong>
+          Total portfolio visits: <strong>{views.toLocaleString()}</strong>
         </>
       )}
     </p>
