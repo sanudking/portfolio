@@ -2,18 +2,21 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import Hero from "../components/Hero";
 import Skills from "../components/Skills";
+import Education from "../components/Education";
+import ScholasticAchievements from "../components/ScholasticAchievements";
 import FeaturedProjects from "../components/FeaturedProjects";
 import Inertial from "../components/Inertial";
 import VisitorCounter from "../components/VisitorCounter";
 
 function Home() {
-  // Deep links like /#skills need a manual scroll: the target section only
-  // exists after React has rendered the page.
+  // Deep links like /#skills or /#education need a manual scroll: the target
+  // section only exists after React has rendered the page.
   useEffect(() => {
-    if (window.location.hash !== "#skills") return;
+    const id = window.location.hash.replace("#", "");
+    if (!id) return;
     const frame = window.requestAnimationFrame(() => {
       document
-        .getElementById("skills")
+        .getElementById(id)
         ?.scrollIntoView({ behavior: "smooth", block: "start" });
     });
     return () => window.cancelAnimationFrame(frame);
@@ -24,6 +27,8 @@ function Home() {
       <Hero />
       <FeaturedProjects />
       <Skills />
+      <Education />
+      <ScholasticAchievements />
 
       <Inertial as="section" className="cta inertial-block" depth={0.7} lag={6}>
         <h2>Let&apos;s build something together</h2>

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0.42" stop-color="#e2e8f0" stop-opacity="0.26" />
+      <stop offset="1" stop-color="#e2e8f0" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="sphere" cx="0.36" cy="0.3" r="0.8">
+      <stop offset="0" stop-color="#f8fafc" />
+      <stop offset="0.34" stop-color="#cbd5e1" />
+      <stop offset="0.72" stop-color="#94a3b8" />
+      <stop offset="1" stop-color="#334155" />
+    </radialGradient>
+    <radialGradient id="shade" cx="0.74" cy="0.8" r="0.62">
+      <stop offset="0" stop-color="#0f172a" stop-opacity="0.6" />
+      <stop offset="0.7" stop-color="#0f172a" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <circle cx="256" cy="256" r="250" fill="url(#glow)" />
+  <circle cx="256" cy="256" r="168" fill="url(#sphere)" />
+  <circle cx="256" cy="256" r="168" fill="url(#shade)" />
+  <circle cx="212" cy="220" r="26" fill="#94a3b8" opacity="0.45" />
+  <circle cx="300" cy="300" r="34" fill="#94a3b8" opacity="0.4" />
+  <circle cx="252" cy="330" r="18" fill="#94a3b8" opacity="0.4" />
+  <ellipse cx="204" cy="186" rx="70" ry="38" fill="#ffffff" opacity="0.22" transform="rotate(-30 204 186)" />
+</svg>

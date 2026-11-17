@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { Suspense, lazy, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion, useReducedMotion } from "framer-motion";
 import Inertial from "./Inertial";
-import "@google/model-viewer";
 import "../styles/hero.css";
 
-const MotionDiv = motion.div;
+// The 3D scene (and the heavy model-viewer bundle) is code-split and mounted
+// only after the first paint, so it never delays FCP/LCP.
+const HeroPlanetCanvas = lazy(() => import("./HeroPlanetCanvas"));
 
 const RESUME_URL =
   "https://drive.google.com/file/d/15cMswfi4aUzp7klr28q4yRgJ3a8tXWkq/view?usp=sharing";
@@ -16,6 +16,7 @@ const PLANETS = [
     label: "Earth",
     model: "/models/earth.glb",
     icon: "/images/earth.svg",
+    poster: "/images/poster-earth.svg",
     accent: "#38bdf8",
     bg: "#08080c",
   },
@@ -24,6 +25,7 @@ const PLANETS = [
     label: "Sun",
     model: "/models/sun.glb",
     icon: "/images/sun.svg",
+    poster: "/images/poster-sun.svg",
     accent: "#fbbf24",
     bg: "#0d0906",
   },
@@ -32,6 +34,7 @@ const PLANETS = [
     label: "Moon",
     model: "/models/moon.glb",
     icon: "/images/moon.svg",
+    poster: "/images/poster-moon.svg",
     accent: "#e2e8f0",
     bg: "#06080f",
   },
@@ -48,8 +51,11 @@ function getSavedPlanet() {
 
 function Hero() {
   const navigate = useNavigate();
-  const shouldReduceMotion = useReducedMotion();
   const [activePlanet, setActivePlanet] = useState(getSavedPlanet);
+  // Pulse the theme switcher on every visit to draw the eye to it.
+  const [showThemeHint, setShowThemeHint] = useState(true);
+  const [showViewer, setShowViewer] = useState(false);
+  const [viewerReady, setViewerReady] = useState(false);
 
   // The chosen planet drives the whole site theme, not just the 3D model.
   useEffect(() => {
@@ -63,6 +69,26 @@ function Hero() {
       .querySelector('meta[name="theme-color"]')
       ?.setAttribute("content", activePlanet.bg);
   }, [activePlanet]);
+
+  // Mount the 3D scene after the first paint so the hero text wins the frame.
+  useEffect(() => {
+    let idleId;
+    let timeoutId;
+    const start = () => setShowViewer(true);
+
+    if (typeof window.requestIdleCallback === "function") {
+      idleId = window.requestIdleCallback(start, { timeout: 1500 });
+    } else {
+      timeoutId = window.setTimeout(start, 250);
+    }
+
+    return () => {
+      if (idleId !== undefined) window.cancelIdleCallback?.(idleId);
+      if (timeoutId !== undefined) window.clearTimeout(timeoutId);
+    };
+  }, []);
+
+  const handleReady = useCallback(() => setViewerReady(true), []);
 
   const handleSelection = (planet) => {
     if (activePlanet.id === planet.id) return;
@@ -84,14 +110,7 @@ function Hero() {
 
   return (
     <section className="hero" style={{ "--planet": activePlanet.accent }}>
-      <MotionDiv
-        className="hero-left"
-        initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={
-          shouldReduceMotion ? { duration: 0 } : { duration: 0.6, ease: "easeOut" }
-        }
-      >
+      <div className="hero-left">
         <span className="hero-tag">
           <span className="dot" aria-hidden="true" />
           Open to internships & collaborations
@@ -102,9 +121,9 @@ function Hero() {
         </h1>
 
         <p className="hero-desc">
-          Full-stack developer and 2nd-year CSE undergrad at NIT Jalandhar. I
-          build fast, accessible web apps — from React interfaces to the APIs
-          behind them.
+          Full-stack developer and CSE undergrad at NIT Jalandhar (Class of
+          2029). I build fast, accessible web apps — from React interfaces to
+          the APIs behind them.
         </p>
 
         <div className="hero-buttons">
@@ -141,37 +160,49 @@ function Hero() {
             <dt>Based in</dt>
             <dd>Jalandhar, India</dd>
           </div>
+          <div>
+            <dt>Class of</dt>
+            <dd>2029</dd>
+          </div>
         </dl>
-      </MotionDiv>
+      </div>
 
       <Inertial as="div" className="hero-right" depth={1.2} lag={16}>
         <div className="viewer-container">
           <div className="viewer-glow" aria-hidden="true" />
           <div className="viewer-ring" aria-hidden="true" />
 
-          {PLANETS.map((planet) => (
-            <model-viewer
-              key={planet.id}
-              className={`spin-viewer ${
-                activePlanet.id === planet.id ? "visible-model" : ""
-              }`}
-              data-name={planet.id}
-              src={planet.model}
-              alt={`A 3D model of ${planet.label}`}
-              disable-zoom
-              disable-pan
-              camera-controls
-              interaction-prompt="none"
-              interpolation-decay="200"
-              min-camera-orbit="auto 90deg auto"
-              max-camera-orbit="auto 90deg auto"
-            />
-          ))}
+          <img
+            className={`viewer-poster${viewerReady ? " is-hidden" : ""}`}
+            src={activePlanet.poster}
+            alt=""
+            width="512"
+            height="512"
+            fetchPriority="high"
+            loading="eager"
+            decoding="async"
+            aria-hidden="true"
+          />
+
+          {showViewer && (
+            <Suspense fallback={null}>
+              <HeroPlanetCanvas
+                planets={PLANETS}
+                activePlanetId={activePlanet.id}
+                onReady={handleReady}
+              />
+            </Suspense>
+          )}
         </div>
 
         <div className="controls-panel">
           <span className="controls-label">Theme</span>
-          <div className="btn-container" role="group" aria-label="Choose a theme">
+          <div
+            className={`btn-container${showThemeHint ? " attention" : ""}`}
+            role="group"
+            aria-label="Choose a theme"
+            onAnimationEnd={() => setShowThemeHint(false)}
+          >
             {PLANETS.map((planet) => (
               <button
                 key={planet.id}

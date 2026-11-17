@@ -7,10 +7,19 @@ function ProjectCard({ project }) {
         <span className="badge">
           {categoryLabels[project.category] ?? project.category}
         </span>
+        {project.period && <span className="badge soft">{project.period}</span>}
       </div>
 
       <h3>{project.title}</h3>
       <p className="project-desc">{project.description}</p>
+
+      {project.highlights && (
+        <ul className="project-highlights">
+          {project.highlights.map((highlight) => (
+            <li key={highlight}>{highlight}</li>
+          ))}
+        </ul>
+      )}
 
       <ul className="stack" aria-label="Tech stack">
         {project.stack.map((tech) => (

@@ -1,0 +1,85 @@
+.education-section {
+  padding-top: 88px;
+}
+
+.education-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.education-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 22px 24px;
+}
+.education-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+}
+.education-card.is-current {
+  border-color: var(--accent-border);
+  background: linear-gradient(
+    160deg,
+    var(--accent-soft),
+    var(--surface) 55%
+  );
+}
+
+.education-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.education-period {
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.education-institution {
+  margin: 0 0 4px;
+  font-size: 1.02rem;
+  line-height: 1.35;
+}
+.education-qualification {
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.education-score {
+  margin-top: auto;
+  align-self: flex-start;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.education-courses {
+  margin-top: 16px;
+  padding: 22px 24px;
+}
+.education-courses h3 {
+  margin: 0 0 12px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.education-courses .stack {
+  margin-bottom: 0;
+}
+
+@media (max-width: 900px) {
+  .education-section {
+    padding-top: 56px;
+  }
+}

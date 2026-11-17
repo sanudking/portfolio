@@ -1,0 +1,59 @@
+.accolade-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+}
+
+.accolade-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 20px 22px;
+}
+.accolade-stat strong {
+  background: linear-gradient(100deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 1.7rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+.accolade-stat span {
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.activity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.activity-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 22px 24px;
+}
+.activity-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+}
+.activity-card h3 {
+  margin: 10px 0 6px;
+  font-size: 1rem;
+}
+.activity-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.activity-tag {
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
