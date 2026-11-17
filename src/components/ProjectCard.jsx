@@ -3,10 +3,23 @@ import { categoryLabels } from "../data/projects";
 function ProjectCard({ project }) {
   return (
     <article className="project-card card">
+      {project.image && (
+        <div className="project-media">
+          <img
+            src={project.image}
+            alt={project.imageAlt ?? ""}
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      )}
+
       <div className="badges">
-        <span className="badge">
-          {categoryLabels[project.category] ?? project.category}
-        </span>
+        {project.categories.map((category) => (
+          <span className="badge" key={category}>
+            {categoryLabels[category] ?? category}
+          </span>
+        ))}
         {project.period && <span className="badge soft">{project.period}</span>}
       </div>
 

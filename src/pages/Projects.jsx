@@ -10,7 +10,7 @@ function Projects() {
   const [filter, setFilter] = useState("all");
 
   const filteredProjects = projectsData.filter(
-    (project) => filter === "all" || project.category === filter
+    (project) => filter === "all" || project.categories.includes(filter)
   );
 
   return (

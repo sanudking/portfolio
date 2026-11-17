@@ -1,0 +1,27 @@
+.reading-section {
+  padding-top: 88px;
+}
+
+.reading-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border);
+}
+.reading-list li {
+  padding: 14px 2px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.98rem;
+}
+.reading-list li::before {
+  content: "—";
+  margin-right: 12px;
+  color: var(--accent);
+}
+
+@media (max-width: 900px) {
+  .reading-section {
+    padding-top: 56px;
+  }
+}
