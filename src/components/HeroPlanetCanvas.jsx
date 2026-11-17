@@ -1,13 +1,24 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import "@google/model-viewer";
 
 /**
  * The 3D planet scene is kept in its own module so it can be lazy-loaded and
  * mounted only after the hero has painted. The heavy `@google/model-viewer`
  * bundle therefore never blocks the initial render.
+ *
+ * Only the active planet's model is given a `src`. The other themes stay
+ * mounted (so switching still cross-fades) but their GLBs are not downloaded
+ * until the visitor actually selects them — that's ~4.6 MB versus ~1.3 MB.
  */
 function HeroPlanetCanvas({ planets, activePlanetId, onReady }) {
   const containerRef = useRef(null);
+  const [visited, setVisited] = useState(() => [activePlanetId]);
+
+  // Adjust state during render rather than in an effect — React's documented
+  // pattern for derived state, and it avoids a cascading re-render.
+  if (!visited.includes(activePlanetId)) {
+    setVisited([...visited, activePlanetId]);
+  }
 
   useEffect(() => {
     const viewers = containerRef.current
@@ -33,7 +44,7 @@ function HeroPlanetCanvas({ planets, activePlanetId, onReady }) {
     return () => {
       viewers.forEach((viewer) => viewer.removeEventListener("load", handleLoad));
     };
-  }, [onReady]);
+  }, [onReady, visited]);
 
   return (
     <div className="viewer-canvas" ref={containerRef}>
@@ -44,8 +55,10 @@ function HeroPlanetCanvas({ planets, activePlanetId, onReady }) {
             activePlanetId === planet.id ? "visible-model" : ""
           }`}
           data-name={planet.id}
-          src={planet.model}
+          src={visited.includes(planet.id) ? planet.model : undefined}
           alt={`A 3D model of ${planet.label}`}
+          poster={planet.poster}
+          reveal="auto"
           disable-zoom
           disable-pan
           camera-controls

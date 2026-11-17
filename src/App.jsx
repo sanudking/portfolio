@@ -3,6 +3,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import StarfieldBackground from "./components/StarfieldBackground";
 import ScrollPhysicsProvider from "./components/ScrollPhysicsProvider";
+import RouteEffects from "./components/RouteEffects";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -19,9 +20,13 @@ function App() {
       <StarfieldBackground />
       <Analytics />
       <SpeedInsights />
+      <RouteEffects />
+      <a className="skip-link" href="#content">
+        Skip to content
+      </a>
       <ScrollPhysicsProvider>
         <Navbar />
-        <main className="main">
+        <main id="content" className="main" tabIndex={-1}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/projects" element={<Projects />} />

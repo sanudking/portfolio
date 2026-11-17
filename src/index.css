@@ -90,7 +90,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: calc(var(--nav-h) + 16px);
+  scroll-padding-top: calc(var(--nav-h-actual, var(--nav-h)) + 16px);
   color-scheme: dark;
 }
 
@@ -144,6 +144,33 @@ a:hover {
   border-radius: 8px;
 }
 
+/* Keyboard users can jump past the nav on every page. Visible only on focus. */
+.skip-link {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 300;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #06060a;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(-200%);
+  transition: transform 0.18s ease;
+}
+.skip-link:focus-visible,
+.skip-link:focus {
+  transform: translateY(0);
+  color: #06060a;
+}
+
+/* Prevents a stray focus ring when the skip link focuses the main landmark. */
+.main:focus {
+  outline: none;
+}
+
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -168,6 +195,7 @@ a:hover {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  min-height: 100dvh;
 }
 
 .app::before {
@@ -181,7 +209,7 @@ a:hover {
     radial-gradient(820px 620px at 102% 2%, var(--glow-b), transparent 60%),
     radial-gradient(700px 700px at 50% 120%, var(--glow-c), transparent 65%),
     linear-gradient(rgba(var(--bg-rgb), 0.9), rgba(var(--bg-rgb), 0.97)),
-    url("/images/image.png") center / cover no-repeat;
+    url("/images/image.webp") center / cover no-repeat;
 }
 
 .main {
@@ -596,6 +624,19 @@ button,
   margin: 0;
 }
 
+@media (hover: none) {
+  .card:hover,
+  .project-card:hover,
+  .skill-card:hover,
+  .education-card:hover,
+  .achievement-card:hover,
+  .activity-card:hover,
+  .contact-card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -611,15 +652,6 @@ button,
 /* ============================================================
    Responsive
    ============================================================ */
-@media (max-width: 900px) {
-  .main {
-    padding: 36px var(--gutter) 72px;
-  }
-  .section {
-    padding-top: 56px;
-  }
-}
-
 @media (max-width: 900px) {
   .main {
     padding: 36px var(--gutter) 72px;
@@ -656,7 +688,45 @@ button,
   }
 }
 
+/* Phones: tighter nav so the links pack closer to a single row. */
+@media (max-width: 520px) {
+  .navbar-inner {
+    gap: 6px;
+    padding: 8px var(--gutter) 10px;
+  }
+  .nav-actions .btn-sm {
+    min-height: 36px;
+    padding: 7px 14px;
+    font-size: 0.8rem;
+  }
+  .nav-links {
+    margin: 0 -3px;
+  }
+  .nav-links a {
+    min-height: 36px;
+    padding: 8px 10px;
+    font-size: 0.8rem;
+  }
+}
+
 @media (max-width: 640px) {
+  .main {
+    padding: 28px var(--gutter) 64px;
+  }
+  .results-bar {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 8px 12px;
+  }
+  .page-head {
+    margin-bottom: 28px;
+  }
+  .page-subtitle {
+    font-size: 0.98rem;
+  }
+  .section {
+    padding-top: 44px;
+  }
   .footer-inner {
     flex-direction: column;
     align-items: flex-start;
@@ -664,6 +734,32 @@ button,
     padding: 28px var(--gutter);
   }
   .cta {
+    margin-top: 64px;
+    padding: 36px 20px;
+    border-radius: 20px;
+  }
+  .empty-state {
     padding: 40px 20px;
+  }
+  .visitor-count {
+    margin-top: 24px;
+    font-size: 0.82rem;
+  }
+}
+
+/* Only affects the compact hero/CTA layouts on phones. */
+@media (max-width: 520px) {
+  .hero-buttons .btn {
+    flex: 1 1 140px;
+  }
+  .hero-buttons .btn-primary {
+    flex-basis: 100%;
+  }
+  .cta-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .cta-actions .btn {
+    width: 100%;
   }
 }

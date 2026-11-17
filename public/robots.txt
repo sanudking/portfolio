@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Build output and source maps have nothing to index.
+Disallow: /assets/
+
+Sitemap: https://sudhanshu.dev/sitemap.xml

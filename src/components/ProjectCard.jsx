@@ -5,12 +5,19 @@ function ProjectCard({ project }) {
     <article className="project-card card">
       {project.image && (
         <div className="project-media">
-          <img
-            src={project.image}
-            alt={project.imageAlt ?? ""}
-            loading="lazy"
-            decoding="async"
-          />
+          <picture>
+            {project.imageWebp && (
+              <source srcSet={project.imageWebp} type="image/webp" />
+            )}
+            <img
+              src={project.image}
+              alt={project.imageAlt ?? ""}
+              width="1400"
+              height="875"
+              loading="lazy"
+              decoding="async"
+            />
+          </picture>
         </div>
       )}
 

@@ -9,6 +9,7 @@ const projects = [
     repo: "https://github.com/sanudking/portfolio",
     live: "https://sudhanshu.dev/",
     image: "/images/projects/portfolio.jpg",
+    imageWebp: "/images/projects/portfolio.webp",
     imageAlt:
       "Portfolio homepage with the 3D Earth hero, navigation and theme switcher",
   },
@@ -27,6 +28,7 @@ const projects = [
     repo: "https://github.com/sanudking/minimol",
     live: "https://timely-quokka-ddbc6b.netlify.app/",
     image: "/images/projects/minimol.jpg",
+    imageWebp: "/images/projects/minimol.webp",
     imageAlt:
       "MiniMoL landing page with the headline One model. Two phones. and phone partition controls",
   },
@@ -51,6 +53,7 @@ const projects = [
     ],
     repo: "https://github.com/sanudking/AI-JobSearch",
     image: "/images/projects/jobmatch.jpg",
+    imageWebp: "/images/projects/jobmatch.webp",
     imageAlt:
       "JobMatch interface with a resume upload, job role and location fields, and 14 matching jobs",
   },
@@ -64,6 +67,7 @@ const projects = [
     repo: "https://github.com/sanudking/physicsSanu",
     live: "https://physics3d.vercel.app/",
     image: "/images/projects/physics-lab.jpg",
+    imageWebp: "/images/projects/physics-lab.webp",
     imageAlt:
       "Physics Lab pendulum experiment with a 3D view, parameter sliders and live measurements",
   },
@@ -76,6 +80,7 @@ const projects = [
     stack: ["Three.js", "Vite", "JavaScript", "lil-gui"],
     live: "https://three-qaq1.vercel.app/",
     image: "/images/projects/voxel-terrain.jpg",
+    imageWebp: "/images/projects/voxel-terrain.webp",
     imageAlt:
       "CubeCraft voxel terrain generated from a seed, with terrain controls in the corner",
   },
@@ -88,6 +93,7 @@ const projects = [
     stack: ["Flutter", "Dart", "Supabase", "Vercel"],
     live: "https://flutter-projects-portfolio.vercel.app/",
     image: "/images/projects/flutter-projects.jpg",
+    imageWebp: "/images/projects/flutter-projects.webp",
     imageAlt:
       "Grid of Flutter apps: Spotify, ExamTracker, RoboMarket and an Info profile screen",
   },
