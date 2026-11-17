@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import StarfieldBackground from "./components/StarfieldBackground";
@@ -11,6 +11,7 @@ import Blog from "./pages/Blog";
 import Contact from "./pages/Contact";
 import Accomplishments from "./pages/Accomplishments";
 import Journal from "./pages/Journal";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -29,7 +30,9 @@ function App() {
             <Route path="/blog" element={<Blog />} />
             <Route path="/journal" element={<Journal />} />
             <Route path="/accomplishments" element={<Accomplishments />} />
-            <Route path="*" element={<Home />} />
+            <Route path="/skills" element={<Navigate to="/#skills" replace />} />
+            <Route path="/education" element={<Navigate to="/#education" replace />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
         <Footer />
