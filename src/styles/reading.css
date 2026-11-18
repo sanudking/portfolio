@@ -25,3 +25,11 @@
     padding-top: 56px;
   }
 }
+
+@media (max-width: 520px) {
+  .reading-list li {
+    padding: 12px 2px;
+    font-size: 0.92rem;
+    overflow-wrap: anywhere;
+  }
+}

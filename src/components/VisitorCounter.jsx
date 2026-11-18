@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 
-const API_BASE = "https://abacus.jasoncameron.dev";
-const NAMESPACE = "sanudking";
-const KEY = "portfolio-visits-2026";
+// abacus.jasoncameron.dev answered the /hit endpoint in 15-20s and returned
+// HTTP 500 or dropped the connection roughly half the time, so the request
+// always tripped the 8s timeout below and the widget unmounted itself. This
+// endpoint answers in ~1-2s with the same { value } payload.
+const API_BASE = "https://countapi.mileshilliard.com/api/v1";
+const KEY = "sanudking-portfolio-visits";
 const TIMEOUT_MS = 8000;
 
 const VisitorCounter = () => {
@@ -16,10 +19,9 @@ const VisitorCounter = () => {
 
     async function trackVisit() {
       try {
-        const response = await fetch(
-          `${API_BASE}/hit/${NAMESPACE}/${KEY}`,
-          { signal: controller.signal }
-        );
+        const response = await fetch(`${API_BASE}/hit/${KEY}`, {
+          signal: controller.signal,
+        });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
         const data = await response.json();

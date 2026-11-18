@@ -184,6 +184,15 @@
   gap: 4px;
 }
 
+@media (max-width: 520px) {
+  .project-card {
+    padding: 18px;
+  }
+  .project-media {
+    margin: -18px -18px 16px;
+  }
+}
+
 @media (max-width: 640px) {
   .filters {
     padding: 14px;
