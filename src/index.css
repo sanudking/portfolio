@@ -677,7 +677,7 @@ button,
 @media (hover: none) {
   .card:hover,
   .project-card:hover,
-  .skill-card:hover,
+  .skill-chip:hover,
   .education-card:hover,
   .achievement-card:hover,
   .activity-card:hover,

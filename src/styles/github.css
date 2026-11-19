@@ -10,6 +10,7 @@
 
 .github-body {
   display: flex;
+  align-items: stretch;
   gap: 8px;
   overflow-x: auto;
   scrollbar-width: thin;
@@ -18,7 +19,8 @@
 
 .github-weekdays {
   display: grid;
-  grid-template-rows: repeat(7, var(--cell));
+  /* 1fr rows stay in lockstep with the plot, whose rows grow with the cells. */
+  grid-template-rows: repeat(7, 1fr);
   gap: var(--gap);
   /* Push the labels down past the month strip. */
   padding-top: calc(1.05rem + 6px);
@@ -27,13 +29,19 @@
 .github-weekdays span {
   color: var(--muted);
   font-size: 0.62rem;
-  line-height: var(--cell);
-  height: var(--cell);
+  line-height: 1;
+  display: flex;
+  align-items: center;
   white-space: nowrap;
 }
 
 .github-plot {
-  flex: 0 0 auto;
+  /* Grow into the leftover width; minmax(var(--cell), 1fr) below keeps the
+     columns from shrinking past a readable size, which triggers the scroller. */
+  flex: 1 1 auto;
+  min-width: 0;
+  /* Room for the trailing month label so it is never clipped by the scroller. */
+  padding-right: 2px;
 }
 
 .github-months {
@@ -52,14 +60,15 @@
 
 .github-grid {
   display: grid;
-  grid-template-rows: repeat(7, var(--cell));
+  /* Rows are auto so square, stretched cells set the row height. */
+  grid-template-rows: repeat(7, auto);
   grid-auto-flow: column;
   gap: var(--gap);
 }
 
 .github-cell {
-  width: var(--cell);
-  height: var(--cell);
+  width: 100%;
+  aspect-ratio: 1;
   border-radius: 3px;
   background: var(--surface);
   box-shadow: inset 0 0 0 1px var(--border);
@@ -115,6 +124,12 @@
   gap: 4px;
   color: var(--muted);
   font-size: 0.72rem;
+}
+/* Legend swatches keep GitHub's fixed 11px size regardless of card width. */
+.github-legend .github-cell {
+  width: 11px;
+  height: 11px;
+  flex: 0 0 auto;
 }
 .github-legend span:first-child {
   margin-right: 4px;

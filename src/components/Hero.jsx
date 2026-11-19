@@ -52,8 +52,8 @@ function getSavedPlanet() {
 function Hero() {
   const navigate = useNavigate();
   const [activePlanet, setActivePlanet] = useState(getSavedPlanet);
-  // Pulse the theme switcher on every visit to draw the eye to it.
-  const [showThemeHint, setShowThemeHint] = useState(true);
+  // The pulse is a nudge for first-time eyes; once the switcher is used it rests.
+  const [hasUsedSwitcher, setHasUsedSwitcher] = useState(false);
   const [showViewer, setShowViewer] = useState(false);
   const [viewerReady, setViewerReady] = useState(false);
 
@@ -91,6 +91,7 @@ function Hero() {
   const handleReady = useCallback(() => setViewerReady(true), []);
 
   const handleSelection = (planet) => {
+    setHasUsedSwitcher(true);
     if (activePlanet.id === planet.id) return;
 
     // Spin the model we leave and the model we enter for a smooth hand-off.
@@ -198,10 +199,9 @@ function Hero() {
         <div className="controls-panel">
           <span className="controls-label">Theme</span>
           <div
-            className={`btn-container${showThemeHint ? " attention" : ""}`}
+            className={`btn-container${hasUsedSwitcher ? "" : " attention"}`}
             role="group"
             aria-label="Choose a theme"
-            onAnimationEnd={() => setShowThemeHint(false)}
           >
             {PLANETS.map((planet) => (
               <button

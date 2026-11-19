@@ -93,15 +93,18 @@ function GitHubContributions() {
   );
 
   // Label the column where each new month first appears, like GitHub does.
+  // Dedupe on year + month: the range spans two Novembers (a partial one at
+  // each edge), so keying on the month alone would swallow the current one.
   const monthLabels = useMemo(() => {
     const seen = new Set();
     return weeks.map((week) => {
       const first = week.find(Boolean);
       if (!first) return "";
-      const month = new Date(`${first.date}T00:00:00`).getMonth();
-      if (seen.has(month)) return "";
-      seen.add(month);
-      return MONTH_LABELS[month];
+      const date = new Date(`${first.date}T00:00:00`);
+      const key = `${date.getFullYear()}-${date.getMonth()}`;
+      if (seen.has(key)) return "";
+      seen.add(key);
+      return MONTH_LABELS[date.getMonth()];
     });
   }, [weeks]);
 
@@ -153,7 +156,7 @@ function GitHubContributions() {
                 className="github-months"
                 aria-hidden="true"
                 style={{
-                  gridTemplateColumns: `repeat(${columnCount}, var(--cell))`,
+                  gridTemplateColumns: `repeat(${columnCount}, minmax(var(--cell), 1fr))`,
                 }}
               >
                 {isLoading
@@ -166,7 +169,7 @@ function GitHubContributions() {
               <div
                 className="github-grid"
                 style={{
-                  gridTemplateColumns: `repeat(${columnCount}, var(--cell))`,
+                  gridTemplateColumns: `repeat(${columnCount}, minmax(var(--cell), 1fr))`,
                 }}
                 role="img"
                 aria-label={

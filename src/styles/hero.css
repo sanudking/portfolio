@@ -192,30 +192,36 @@
   -webkit-backdrop-filter: blur(10px);
 }
 
-/* Attention pulse for the theme switcher, played on every visit. */
-@keyframes theme-attention {
-  0% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 var(--accent-shadow);
-  }
-  25% {
-    transform: scale(1.12);
-    box-shadow: 0 0 26px 4px var(--accent-shadow);
-  }
-  45% {
-    transform: scale(0.99);
-  }
-  68% {
-    transform: scale(1.05);
-    box-shadow: 0 0 16px 2px var(--accent-shadow);
-  }
+/* Steady attention pulse on the theme switcher: one soft beat, then a rest. */
+@keyframes theme-pulse {
+  0%,
+  62%,
   100% {
     transform: scale(1);
     box-shadow: 0 0 0 0 var(--accent-shadow);
   }
+  18% {
+    transform: scale(1.07);
+    box-shadow: 0 0 22px 4px var(--accent-shadow);
+  }
 }
+
+/* Pulses until the visitor picks a theme, then settles for good. */
 .btn-container.attention {
-  animation: theme-attention 1.7s cubic-bezier(0.22, 1, 0.36, 1) 0.7s 1 both;
+  animation: theme-pulse 2.6s ease-in-out 0.7s infinite;
+}
+
+/* Stop pulsing once the user reaches for it, so it never fights the cursor. */
+.btn-container:hover,
+.btn-container:focus-within {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-container.attention {
+    animation: none;
+    box-shadow: 0 0 0 1px var(--accent-border);
+  }
 }
 
 .select-btn {

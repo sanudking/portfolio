@@ -15,6 +15,19 @@ const STREAK_MIN_SPEED = 0.9;
 const STREAK_SCALE = 8;
 const MAX_STREAK = 14;
 
+const STAR_FIRST_DELAY = 1800;
+const STAR_MIN_INTERVAL = 4500;
+const STAR_MAX_INTERVAL = 12000;
+const STAR_SPEED_MIN = 6;
+const STAR_SPEED_MAX = 14;
+const STAR_INFLUENCE = 150;
+const STAR_PUSH = 0.55;
+const STAR_WAKE = 0.6;
+const STAR_SWIRL = 0.22;
+const STAR_FLASH = 0.9;
+const STAR_EXIT_MARGIN = 140;
+const DEG = Math.PI / 180;
+
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
 function StarfieldBackground() {
@@ -33,6 +46,8 @@ function StarfieldBackground() {
     let dpr = 1;
     let particles = [];
     let colors = ["#38bdf8", "#a78bfa"];
+    let shootingStars = [];
+    let nextStarAt = 0;
     let frame = 0;
     let running = false;
     let lastTime = 0;
@@ -73,6 +88,7 @@ function StarfieldBackground() {
         alpha: 0.16 + depth * 0.42,
         color: Math.random() < 0.7 ? 0 : 1,
         phase: Math.random() * Math.PI * 2,
+        flash: 0,
       };
     }
 
@@ -85,14 +101,181 @@ function StarfieldBackground() {
       particles = Array.from({ length: count }, makeParticle);
     }
 
+    function makeShootingStar(entry) {
+      const speed = STAR_SPEED_MIN + Math.random() * (STAR_SPEED_MAX - STAR_SPEED_MIN);
+      const angle = (16 + Math.random() * 38) * DEG;
+      const vx = Math.cos(angle) * speed;
+      const vy = Math.sin(angle) * speed;
+
+      let x;
+      let y;
+
+      if (entry === "top") {
+        x = Math.random() * width * 0.75 - width * 0.1;
+        y = -STAR_EXIT_MARGIN * 0.5;
+      } else {
+        x = -STAR_EXIT_MARGIN * 0.5;
+        y = Math.random() * height * 0.45;
+      }
+
+      // Roughly how long until it leaves the viewport; keeps the fade honest.
+      // Travel is measured in frames, so convert to milliseconds for `life`.
+      const FRAME_MS = 16.667;
+      const travelX = (width + STAR_EXIT_MARGIN - x) / vx;
+      const travelY = (height + STAR_EXIT_MARGIN - y) / vy;
+      const maxLife = Math.max(travelX, travelY) * FRAME_MS;
+
+      return {
+        x,
+        y,
+        vx,
+        vy,
+        speed,
+        travel: 0,
+        maxLife,
+        life: maxLife,
+        length: 46 + speed * 4.2,
+        width: 1.1 + Math.random() * 0.9,
+        color: Math.random() < 0.65 ? 0 : 1,
+        phase: Math.random() * Math.PI * 2,
+      };
+    }
+
+    function spawnShootingStars(now) {
+      if (motionQuery.matches || now < nextStarAt) return;
+
+      shootingStars.push(makeShootingStar("top"));
+      if (Math.random() < 0.08) shootingStars.push(makeShootingStar("left"));
+
+      nextStarAt =
+        now + STAR_MIN_INTERVAL + Math.random() * (STAR_MAX_INTERVAL - STAR_MIN_INTERVAL);
+    }
+
+    function updateShootingStars(dt) {
+      if (shootingStars.length === 0) return;
+
+      for (let i = shootingStars.length - 1; i >= 0; i -= 1) {
+        const star = shootingStars[i];
+        const frames = dt / 16.667;
+        star.x += star.vx * frames;
+        star.y += star.vy * frames;
+        star.travel += star.speed * frames;
+        star.life -= dt;
+
+        const gone =
+          star.life <= 0 ||
+          star.x - STAR_EXIT_MARGIN > width ||
+          star.y - STAR_EXIT_MARGIN > height;
+
+        if (gone) shootingStars.splice(i, 1);
+      }
+    }
+
+    function stirParticle(particle, star, step) {
+      const dx = particle.x - star.x;
+      const dy = particle.y - star.y;
+      const distSq = dx * dx + dy * dy;
+
+      if (distSq > STAR_INFLUENCE * STAR_INFLUENCE) return;
+
+      const dist = Math.sqrt(distSq) || 1;
+      const falloff = 1 - dist / STAR_INFLUENCE;
+      const force = falloff * falloff * (0.45 + particle.depth * 0.55);
+
+      // Shockwave pushes dust out of the way...
+      particle.vx += (dx / dist) * force * STAR_PUSH * step;
+      particle.vy += (dy / dist) * force * STAR_PUSH * step;
+
+      // ...the wake drags it along the direction of travel...
+      const speed = Math.hypot(star.vx, star.vy) || 1;
+      particle.vx += (star.vx / speed) * force * STAR_WAKE * step;
+      particle.vy += (star.vy / speed) * force * STAR_WAKE * step;
+
+      // ...and a touch of swirl bends the path around the passing body.
+      particle.vx += (-dy / dist) * force * STAR_SWIRL * step;
+      particle.vy += (dx / dist) * force * STAR_SWIRL * step;
+
+      const glow = falloff * STAR_FLASH;
+      if (glow > particle.flash) particle.flash = glow;
+    }
+
+    function drawShootingStars(now) {
+      if (shootingStars.length === 0) return;
+
+      ctx.globalCompositeOperation = "lighter";
+      ctx.lineCap = "round";
+
+      for (const star of shootingStars) {
+        const ux = star.vx / star.speed;
+        const uy = star.vy / star.speed;
+
+        const lifeRatio = clamp(star.life / star.maxLife, 0, 1);
+        // Fade in over the first ~90px of travel so stars don't blink into
+        // existence while still above (or left of) the viewport.
+        const fadeIn = clamp(star.travel / 90, 0, 1);
+        const fadeOut = clamp(lifeRatio * 3.2, 0, 1);
+        const alpha = fadeIn * fadeOut;
+        if (alpha <= 0.01) continue;
+
+        const shimmer = 0.9 + Math.sin(now * 0.008 + star.phase) * 0.1;
+        const color = colors[star.color];
+        const length = star.length * (0.55 + fadeOut * 0.45) * shimmer;
+        const tailX = star.x - ux * length;
+        const tailY = star.y - uy * length;
+
+        const trail = ctx.createLinearGradient(tailX, tailY, star.x, star.y);
+        trail.addColorStop(0, "rgba(255, 255, 255, 0)");
+        trail.addColorStop(0.55, color);
+        trail.addColorStop(1, "#ffffff");
+
+        ctx.globalAlpha = alpha * 0.85;
+        ctx.strokeStyle = trail;
+        ctx.lineWidth = star.width;
+        ctx.beginPath();
+        ctx.moveTo(tailX, tailY);
+        ctx.lineTo(star.x, star.y);
+        ctx.stroke();
+
+        const glowRadius = 12 + star.width * 5;
+        const glow = ctx.createRadialGradient(
+          star.x,
+          star.y,
+          0,
+          star.x,
+          star.y,
+          glowRadius
+        );
+        glow.addColorStop(0, color);
+        glow.addColorStop(0.35, color);
+        glow.addColorStop(1, "rgba(0, 0, 0, 0)");
+
+        ctx.globalAlpha = alpha * 0.55;
+        ctx.fillStyle = glow;
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, glowRadius, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle = "#ffffff";
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.width * 0.9, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.globalAlpha = 1;
+      ctx.globalCompositeOperation = "source-over";
+      ctx.lineCap = "butt";
+    }
+
     function drawParticles(now) {
       ctx.globalCompositeOperation = "lighter";
 
       for (const particle of particles) {
         const twinkle = 0.85 + Math.sin(now * 0.001 + particle.phase) * 0.15;
         const speed = Math.hypot(particle.vx, particle.vy);
+        const glow = 1 + particle.flash * 1.35;
 
-        ctx.globalAlpha = particle.alpha * twinkle;
+        ctx.globalAlpha = Math.min(1, particle.alpha * twinkle * glow);
         ctx.fillStyle = colors[particle.color];
 
         // Fast dust (usually from scrolling) stretches into a short comet trail.
@@ -191,6 +374,7 @@ function StarfieldBackground() {
       if (pointer.active && pointerQuery.matches) drawWell();
       drawLinks();
       drawParticles(now);
+      drawShootingStars(now);
     }
 
     function drawStatic() {
@@ -201,6 +385,9 @@ function StarfieldBackground() {
     function update(dt, now) {
       const step = clamp(dt / 16.667, 0.25, 2);
       const damping = Math.pow(0.986, step);
+
+      spawnShootingStars(now);
+      updateShootingStars(dt);
 
       // Scroll velocity feeds the field so the page feels like it is moving
       // through dust. Deltas are per-frame and clamped to avoid jump spikes.
@@ -259,11 +446,19 @@ function StarfieldBackground() {
           }
         }
 
+        // Passing shooting stars shove, drag and light up nearby dust.
+        for (const star of shootingStars) {
+          stirParticle(particle, star, step);
+        }
+
+        particle.flash *= Math.pow(0.94, step);
+
         particle.vx *= damping;
         particle.vy *= damping;
 
         const speed = Math.hypot(particle.vx, particle.vy);
-        const maxSpeed = MAX_SPEED * (0.65 + particle.depth * 0.35);
+        const maxSpeed =
+          MAX_SPEED * (0.65 + particle.depth * 0.35) * (1 + particle.flash * 2.2);
 
         if (speed > maxSpeed) {
           particle.vx = (particle.vx / speed) * maxSpeed;
@@ -298,6 +493,7 @@ function StarfieldBackground() {
       running = true;
       lastTime = performance.now();
       lastScrollY = window.scrollY || window.pageYOffset || 0;
+      if (nextStarAt === 0) nextStarAt = lastTime + STAR_FIRST_DELAY;
       frame = requestAnimationFrame(tick);
     }
 

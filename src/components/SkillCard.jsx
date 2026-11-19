@@ -1,16 +1,16 @@
 function SkillCard({ icon, text, invert = false }) {
   return (
-    <div className="skill-card card">
+    <span className="skill-chip">
       <img
         className={invert ? "invert" : undefined}
         src={icon}
         alt=""
-        width="34"
-        height="34"
+        width="18"
+        height="18"
         loading="lazy"
       />
       <span>{text}</span>
-    </div>
+    </span>
   );
 }
 
