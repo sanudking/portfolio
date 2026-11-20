@@ -40,6 +40,9 @@ function StarfieldBackground() {
 
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const pointerQuery = window.matchMedia("(pointer: fine)");
+    const coarsePointerQuery = window.matchMedia(
+      "(pointer: coarse), (hover: none)"
+    );
 
     let width = 0;
     let height = 0;
@@ -279,7 +282,7 @@ function StarfieldBackground() {
         ctx.fillStyle = colors[particle.color];
 
         // Fast dust (usually from scrolling) stretches into a short comet trail.
-        if (speed > STREAK_MIN_SPEED) {
+        if (!coarsePointerQuery.matches && speed > STREAK_MIN_SPEED) {
           const streak = Math.min(speed * STREAK_SCALE, MAX_STREAK);
           ctx.strokeStyle = colors[particle.color];
           ctx.lineWidth = particle.radius * 1.4;
