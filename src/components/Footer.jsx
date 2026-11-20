@@ -12,6 +12,11 @@ const socials = [
     icon: "/images/linkedin.png",
   },
   {
+    label: "X",
+    href: "https://x.com/sanudking2",
+    icon: "/images/x.png",
+  },
+  {
     label: "Instagram",
     href: "https://www.instagram.com/sudhanshu._.01/",
     icon: "/images/instagram.png",

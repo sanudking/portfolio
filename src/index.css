@@ -585,6 +585,8 @@ button,
 .social-btn img {
   width: 18px;
   height: 18px;
+  border-radius: 50%;
+  object-fit: cover;
   opacity: 0.9;
 }
 .footer-bottom {
