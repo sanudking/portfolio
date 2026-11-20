@@ -574,7 +574,8 @@ button,
   background: var(--surface-hover);
   border-color: var(--accent-border);
 }
-.social-btn img {
+.social-btn img,
+.social-btn svg {
   width: 18px;
   height: 18px;
   opacity: 0.9;
