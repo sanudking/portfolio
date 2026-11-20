@@ -4,7 +4,7 @@ const projects = [
     title: "Portfolio Website",
     categories: ["web"],
     description:
-      "This site — a React + Vite portfolio with interactive 3D planet models, a hand-rolled design system and Framer Motion transitions.",
+      "This site — a React + Vite portfolio with interactive 3D planet models, a hand-rolled design system and Framer Motion transitions, plus a light/dark/sun theme switcher and scroll-linked inertia effects. It also carries the journal, blog, skills and accomplishments pages, with route-aware meta tags, a skip link and reduced-motion support throughout.",
     stack: ["React", "Vite", "Framer Motion"],
     repo: "https://github.com/sanudking/portfolio",
     live: "https://sudhanshu.dev/",
@@ -120,5 +120,13 @@ export const categoryLabels = {
   "3d": "3D",
   mobile: "Mobile",
 };
+
+/** Stable, URL-safe anchor for deep links like /projects#jobmatch. */
+export const projectSlug = (project) =>
+  project.title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+
 
 export default projects;

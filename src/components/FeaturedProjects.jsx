@@ -1,10 +1,15 @@
 import { Link } from "react-router-dom";
-import projectsData from "../data/projects";
+import projectsData, { projectSlug } from "../data/projects";
 import ProjectCard from "./ProjectCard";
 import Inertial, { FocusInertial } from "./Inertial";
 import "../styles/featured.css";
 
-const FEATURED_TITLES = ["Distributed LLM Inference", "Portfolio Website"];
+const FEATURED_TITLES = [
+  "Distributed LLM Inference",
+  "JobMatch",
+  "Physics Simulator",
+  "Portfolio Website",
+];
 
 const featuredProjects = FEATURED_TITLES.map((title) =>
   projectsData.find((project) => project.title === title)
@@ -18,8 +23,7 @@ function FeaturedProjects() {
           <span className="eyebrow">Selected work</span>
           <h2 className="section-title">Featured projects</h2>
           <p className="section-sub">
-            A couple of things I&apos;m proud of — the rest live on the projects
-            page.
+            Four things I&apos;m proud of — the rest live on the projects page.
           </p>
         </div>
       </Inertial>
@@ -27,7 +31,11 @@ function FeaturedProjects() {
       <div className="featured-grid">
         {featuredProjects.map((project) => (
           <FocusInertial key={project.id} depth={1} lag={9} tilt={1.2}>
-            <ProjectCard project={project} />
+            <ProjectCard
+              project={project}
+              compact
+              href={`/projects#${projectSlug(project)}`}
+            />
           </FocusInertial>
         ))}
       </div>

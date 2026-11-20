@@ -1,8 +1,24 @@
+import { Link } from "react-router-dom";
 import { categoryLabels } from "../data/projects";
 
-function ProjectCard({ project }) {
+const COMPACT_STACK_LIMIT = 3;
+
+function ProjectCard({ project, compact = false, href, anchorId }) {
+  const stack = compact
+    ? project.stack.slice(0, COMPACT_STACK_LIMIT)
+    : project.stack;
+
+  const className = [
+    "project-card",
+    "card",
+    compact && "project-card--compact",
+    href && "project-card--linked",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
-    <article className="project-card card">
+    <article className={className} id={anchorId}>
       {project.image && (
         <div className="project-media">
           <picture>
@@ -30,10 +46,18 @@ function ProjectCard({ project }) {
         {project.period && <span className="badge soft">{project.period}</span>}
       </div>
 
-      <h3>{project.title}</h3>
+      <h3>
+        {href ? (
+          <Link className="project-title-link" to={href}>
+            {project.title}
+          </Link>
+        ) : (
+          project.title
+        )}
+      </h3>
       <p className="project-desc">{project.description}</p>
 
-      {project.highlights && (
+      {!compact && project.highlights && (
         <ul className="project-highlights">
           {project.highlights.map((highlight) => (
             <li key={highlight}>{highlight}</li>
@@ -42,7 +66,7 @@ function ProjectCard({ project }) {
       )}
 
       <ul className="stack" aria-label="Tech stack">
-        {project.stack.map((tech) => (
+        {stack.map((tech) => (
           <li key={tech}>{tech}</li>
         ))}
       </ul>
@@ -64,3 +88,4 @@ function ProjectCard({ project }) {
 }
 
 export default ProjectCard;
+

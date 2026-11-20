@@ -377,6 +377,14 @@ button,
     border-color 0.45s ease,
     transform 0.3s ease;
 }
+/* Hide-on-scroll applies at every breakpoint. */
+.navbar.navbar-hidden {
+  transform: translateY(-100%);
+}
+/* Never trap keyboard focus inside a bar that has slid away. */
+.navbar.navbar-hidden:focus-within {
+  transform: translateY(0);
+}
 .navbar-inner {
   position: relative;
   display: flex;
@@ -732,14 +740,6 @@ button,
     transform: none;
     order: 1;
     margin-left: auto;
-  }
-
-  /* Scroll-away behaviour lives on phones/tablets only. */
-  .navbar.navbar-hidden {
-    transform: translateY(-100%);
-  }
-  .navbar.navbar-hidden:focus-within {
-    transform: translateY(0);
   }
 
   /* Dropdown panel instead of a wrapped row of links. */

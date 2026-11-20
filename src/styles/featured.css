@@ -1,7 +1,7 @@
 .featured-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
 }
 
 .featured-more {
@@ -10,8 +10,72 @@
   margin-top: 26px;
 }
 
+/* ------------------------------------------------------------
+   Compact card variant (home page only)
+   ------------------------------------------------------------ */
+.project-card--compact {
+  padding: 14px;
+}
+.project-card--compact .project-media {
+  margin: -14px -14px 12px;
+  aspect-ratio: 16 / 9;
+}
+.project-card--compact .badges {
+  gap: 4px;
+  margin-bottom: 10px;
+}
+.project-card--compact .badge {
+  padding: 2px 8px;
+  font-size: 0.62rem;
+}
+.project-card--compact h3 {
+  margin-bottom: 6px;
+  font-size: 1rem;
+  line-height: 1.3;
+}
+.project-card--compact .project-desc {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  margin-bottom: 12px;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+.project-card--compact .stack {
+  gap: 4px;
+  margin-bottom: 12px;
+}
+.project-card--compact .stack li {
+  padding: 2px 7px;
+  font-size: 0.68rem;
+}
+.project-card--compact .project-links {
+  gap: 14px;
+  padding-top: 10px;
+  font-size: 0.78rem;
+}
+
+@media (max-width: 1080px) {
+  .featured-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 720px) {
   .featured-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .project-card--compact {
+    padding: 16px;
+  }
+  .project-card--compact .project-media {
+    margin: -16px -16px 14px;
+  }
+  .project-card--compact .project-desc {
+    -webkit-line-clamp: 3;
   }
 }

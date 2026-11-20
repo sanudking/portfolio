@@ -12,8 +12,8 @@ const links = [
   { to: "/blogs", label: "Blog" },
 ];
 
-// Mobile scroll direction behaviour: hide the bar while scrolling down,
-// reveal it again as soon as the page scrolls up.
+// Scroll direction behaviour (all viewports): hide the bar while scrolling
+// down, reveal it again as soon as the page scrolls up.
 const HIDE_ON_SCROLL_DOWN = true;
 
 function Navbar() {
@@ -72,10 +72,6 @@ function Navbar() {
   }, [menuOpen]);
 
   useEffect(() => {
-    const navbar = navbarRef.current;
-    if (!navbar) return;
-
-    const query = window.matchMedia("(max-width: 960px)");
     let lastY = window.scrollY;
     let frame = 0;
 
@@ -88,7 +84,7 @@ function Navbar() {
       if (Math.abs(delta) < 6) return;
       lastY = y;
 
-      if (!query.matches || y < 40) {
+      if (y < 40) {
         setNavHidden(false);
         return;
       }
@@ -102,19 +98,17 @@ function Navbar() {
       frame = window.requestAnimationFrame(update);
     };
 
-    const onResize = () => {
-      if (!query.matches) setNavHidden(false);
-    };
+    // Anchor jumps and route changes reset the scroll position, so drop any
+    // hidden state rather than leaving the bar off-screen at the top.
+    const onResize = () => setNavHidden(false);
 
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onResize);
-    query.addEventListener("change", onResize);
 
     return () => {
       if (frame) window.cancelAnimationFrame(frame);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
-      query.removeEventListener("change", onResize);
     };
   }, []);
 

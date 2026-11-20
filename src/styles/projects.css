@@ -91,6 +91,42 @@
   box-shadow: var(--shadow);
 }
 
+/* Deep-link target: /projects#<slug> lands on this card. */
+.project-card[id] {
+  scroll-margin-top: calc(var(--nav-h-actual, var(--nav-h)) + 24px);
+}
+.project-card[id]:target {
+  border-color: var(--accent-border);
+  box-shadow: 0 0 0 1px var(--accent-border), 0 18px 40px var(--accent-shadow);
+}
+
+/* Whole-card click target for cards that link to a project anchor. */
+.project-card--linked {
+  position: relative;
+}
+.project-title-link {
+  color: inherit;
+  text-decoration: none;
+}
+.project-title-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: var(--radius);
+}
+.project-card--linked:hover .project-title-link {
+  color: var(--accent);
+}
+.project-title-link:focus-visible::after {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.project-card--linked .project-links {
+  position: relative;
+  z-index: 2;
+}
+
 .project-media {
   margin: -24px -24px 18px;
   aspect-ratio: 16 / 10;
