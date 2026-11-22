@@ -306,7 +306,7 @@ const y = useTransform(
       <h2>What I would do differently</h2>
 
       <p>
-        Three things, in order of how much time they would have saved.
+        Two things, in order of how much time they would have saved.
       </p>
 
       <ol>
@@ -321,13 +321,6 @@ const y = useTransform(
           my laptop” is not a budget. Deciding up front that the model must
           never block first paint is what led to the lazy import, the poster and
           the chunk split.
-        </li>
-        <li>
-          <strong>Build the data layer before the empty state.</strong> The blog
-          page sat on “first post in progress” far longer than it needed to,
-          because the page existed before the thing that feeds it. Posts are
-          data now; adding the next one is a metadata entry and a body
-          component.
         </li>
       </ol>
 
