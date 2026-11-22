@@ -9,6 +9,7 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Projects from "./pages/Projects";
 import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 import Contact from "./pages/Contact";
 import Accomplishments from "./pages/Accomplishments";
 import Journal from "./pages/Journal";
@@ -33,6 +34,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/blogs" element={<Blog />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/journal" element={<Journal />} />
             <Route path="/accomplishments" element={<Accomplishments />} />
             <Route path="/skills" element={<Navigate to="/#skills" replace />} />

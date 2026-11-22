@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import posts from "../data/posts";
 
 const SITE_NAME = "Sudhanshu Kumar";
 const BASE_TITLE = "Sudhanshu Kumar — Full-stack developer";
@@ -42,6 +43,32 @@ const META = {
   },
 };
 
+const NOT_FOUND = {
+  title: `Page not found — ${SITE_NAME}`,
+  description: "This page doesn't exist.",
+};
+
+/**
+ * Fixed pages come from META; blog posts are resolved from the post data so
+ * each one gets its own title, description and canonical URL.
+ */
+function resolveMeta(path) {
+  const match = path.match(/^\/blogs?\/([^/]+)$/);
+  if (match) {
+    const post = posts.find((entry) => entry.slug === match[1]);
+    if (post) {
+      return {
+        title: `${post.title} — ${SITE_NAME}`,
+        description: post.excerpt,
+        type: "article",
+        canonicalPath: `/blog/${post.slug}`,
+      };
+    }
+  }
+
+  return META[path] ?? NOT_FOUND;
+}
+
 function setMetaTag(attr, key, content) {
   if (!content) return;
   let tag = document.head.querySelector(`meta[${attr}="${key}"]`);
@@ -61,16 +88,15 @@ function setMetaTag(attr, key, content) {
 export default function usePageMeta(pathname) {
   useEffect(() => {
     const path = pathname?.replace(/\/+$/, "") || "/";
-    const meta = META[path] ?? {
-      title: `Page not found — ${SITE_NAME}`,
-      description: "This page doesn't exist.",
-    };
+    const meta = resolveMeta(path);
+    const canonicalPath = meta.canonicalPath ?? path;
 
     document.title = meta.title;
     setMetaTag("name", "description", meta.description);
     setMetaTag("property", "og:title", meta.title);
     setMetaTag("property", "og:description", meta.description);
-    setMetaTag("property", "og:url", `https://sudhanshu.dev${path}`);
+    setMetaTag("property", "og:type", meta.type ?? "website");
+    setMetaTag("property", "og:url", `https://sudhanshu.dev${canonicalPath}`);
     setMetaTag("name", "twitter:title", meta.title);
     setMetaTag("name", "twitter:description", meta.description);
 
@@ -81,6 +107,6 @@ export default function usePageMeta(pathname) {
       canonical.setAttribute("rel", "canonical");
       document.head.appendChild(canonical);
     }
-    canonical.setAttribute("href", `https://sudhanshu.dev${path}`);
+    canonical.setAttribute("href", `https://sudhanshu.dev${canonicalPath}`);
   }, [pathname]);
 }
