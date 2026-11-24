@@ -589,6 +589,25 @@ button,
   object-fit: cover;
   opacity: 0.9;
 }
+.footer-quote {
+  width: 100%;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 var(--gutter) 32px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-style: italic;
+  line-height: 1.65;
+  opacity: 0.85;
+}
+.footer-quote-author {
+  display: inline-block;
+  margin-left: 8px;
+  font-style: normal;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  opacity: 0.75;
+}
 .footer-bottom {
   width: 100%;
   border-top: 1px solid var(--border);
@@ -864,6 +883,10 @@ button,
     align-items: flex-start;
     gap: 20px;
     padding: 28px var(--gutter);
+  }
+  .footer-quote {
+    padding-bottom: 24px;
+    font-size: 0.88rem;
   }
   .cta {
     margin-top: 64px;

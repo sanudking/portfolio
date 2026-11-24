@@ -73,6 +73,13 @@ function Footer() {
         </div>
       </div>
 
+      <p className="footer-quote">
+        “You can’t connect the dots looking forward; you can only connect them
+        looking backwards. So you have to trust that the dots will somehow
+        connect in your future.”
+        <span className="footer-quote-author">— Steve Jobs</span>
+      </p>
+
       <div className="footer-bottom">
         <p>© {year} Sudhanshu Kumar · Built with React, Vite & Framer Motion</p>
       </div>
