@@ -1,5 +1,5 @@
 const readingList = [
-  "Petals: Collaborative Inference and Fine-Tuning of Large Models",
+  "Attention Is All You Need",
   "Designing Data-Intensive Applications",
   "Efficient Memory Management for Large Language Model Serving with PagedAttention",
   "High Performance Browser Networking",

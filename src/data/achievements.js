@@ -1,12 +1,5 @@
 const scholasticAchievements = [
   {
-    badge: "CGPA 8.31 / 10",
-    title: "B.Tech Computer Science and Engineering",
-    venue: "NIT Jalandhar",
-    year: "2025 – 2029",
-    tone: "alt",
-  },
-  {
     badge: "3rd Place",
     title: "MiniMoL 2026",
     venue: "GDGC",

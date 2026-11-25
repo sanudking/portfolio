@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { HashLink } from "react-router-hash-link";
 
 const socials = [
   {
@@ -24,6 +25,10 @@ const socials = [
 ];
 
 const navLinks = [
+  { to: "/", label: "Home" },
+  { to: "/#skills", label: "Skills", hash: true },
+  { to: "/#experience", label: "Experience", hash: true },
+  { to: "/#education", label: "Education", hash: true },
   { to: "/projects", label: "Projects" },
   { to: "/journal", label: "Journal" },
   { to: "/blogs", label: "Blog" },
@@ -36,24 +41,18 @@ function Footer() {
   return (
     <footer className="footer">
       <div className="footer-inner">
-        <div className="footer-brand">
-          <Link to="/" className="brand">
-            <span className="brand-mark" aria-hidden="true">
-              SK
-            </span>
-            <span className="brand-name">Sudhanshu</span>
-          </Link>
-          <p className="footer-tagline">
-            Full-stack developer · CSE @ NIT Jalandhar
-          </p>
-        </div>
-
         <nav className="footer-links" aria-label="Footer navigation">
-          {navLinks.map((link) => (
-            <Link key={link.to} to={link.to}>
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) =>
+            link.hash ? (
+              <HashLink key={link.to} smooth to={link.to}>
+                {link.label}
+              </HashLink>
+            ) : (
+              <Link key={link.to} to={link.to}>
+                {link.label}
+              </Link>
+            )
+          )}
         </nav>
 
         <div className="socials">
@@ -81,7 +80,7 @@ function Footer() {
       </p>
 
       <div className="footer-bottom">
-        <p>© {year} Sudhanshu Kumar · Built with React, Vite & Framer Motion</p>
+        <p>Built with ❤️ by Sudhanshu</p>
       </div>
     </footer>
   );

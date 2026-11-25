@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import Hero from "../components/Hero";
 import Skills from "../components/Skills";
+import Experience from "../components/Experience";
 import Education from "../components/Education";
 import ScholasticAchievements from "../components/ScholasticAchievements";
 import GitHubContributions from "../components/GitHubContributions";
@@ -27,6 +28,7 @@ function Home() {
   return (
     <div className="home">
       <Hero />
+      <Experience />
       <FeaturedProjects />
       <Skills />
       <Education />

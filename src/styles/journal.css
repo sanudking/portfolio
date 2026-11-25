@@ -1,5 +1,8 @@
 .timeline {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   max-width: 780px;
   padding-left: 30px;
   border-left: 1px solid var(--border);

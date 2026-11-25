@@ -163,6 +163,9 @@ function Navbar() {
           <HashLink smooth to="/#skills">
             Skills
           </HashLink>
+          <HashLink smooth to="/#experience">
+            Experience
+          </HashLink>
           <HashLink smooth to="/#education">
             Education
           </HashLink>
