@@ -17,7 +17,7 @@ const featuredProjects = FEATURED_TITLES.map((title) =>
 
 function FeaturedProjects() {
   return (
-    <section className="section featured-section">
+    <section id="featured-projects" className="section featured-section">
       <Inertial className="inertial-block" depth={0.8} lag={5}>
         <div className="section-head">
           <span className="eyebrow">Selected work</span>
