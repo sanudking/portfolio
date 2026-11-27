@@ -8,8 +8,7 @@ const RESUME_URL =
 const links = [
   { to: "/", label: "Home", end: true },
   { to: "/projects", label: "Projects" },
-  { to: "/journal", label: "Journal" },
-  { to: "/blogs", label: "Blog" },
+  { to: "/writing", label: "Writing" },
 ];
 
 // Scroll direction behaviour (all viewports): hide the bar while scrolling

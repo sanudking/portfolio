@@ -1,7 +1,7 @@
 import BuildingThisPortfolio from "../content/posts/building-this-portfolio";
 
 /**
- * Blog posts, newest first. Adding a post means adding a body component under
+ * Essays, newest first. Adding a post means adding a body component under
  * src/content/posts and one entry here — the listing, routing and page
  * metadata all read from this array.
  */

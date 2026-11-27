@@ -52,8 +52,6 @@ function getSavedPlanet() {
 function Hero() {
   const navigate = useNavigate();
   const [activePlanet, setActivePlanet] = useState(getSavedPlanet);
-  // The pulse is a nudge for first-time eyes; once the switcher is used it rests.
-  const [hasUsedSwitcher, setHasUsedSwitcher] = useState(false);
   const [showViewer, setShowViewer] = useState(false);
   const [viewerReady, setViewerReady] = useState(false);
 
@@ -91,7 +89,6 @@ function Hero() {
   const handleReady = useCallback(() => setViewerReady(true), []);
 
   const handleSelection = (planet) => {
-    setHasUsedSwitcher(true);
     if (activePlanet.id === planet.id) return;
 
     // Spin the model we leave and the model we enter for a smooth hand-off.
@@ -117,9 +114,7 @@ function Hero() {
           Open to internships & collaborations
         </span>
 
-        <h1 className="hero-title">
-          Hi, I&apos;m <span className="gradient-text">Sudhanshu</span>
-        </h1>
+        <h1 className="hero-title">Hi, I&apos;m Sudhanshu</h1>
 
         <p className="hero-desc">
           Full-stack developer and CSE undergrad at NIT Jalandhar (Class of
@@ -199,7 +194,7 @@ function Hero() {
         <div className="controls-panel">
           <span className="controls-label">Theme</span>
           <div
-            className={`btn-container${hasUsedSwitcher ? "" : " attention"}`}
+            className="btn-container"
             role="group"
             aria-label="Choose a theme"
           >

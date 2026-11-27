@@ -1,57 +1,52 @@
+/* Learning-log timeline used on the Writing page. */
 .timeline {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  max-width: 780px;
-  padding-left: 30px;
+  gap: var(--space-3);
+  max-width: 820px;
+  padding-left: var(--space-6);
   border-left: 1px solid var(--border);
 }
 
 .entry {
   position: relative;
-  margin-bottom: 14px;
-  padding: 20px 24px;
-}
-.entry:last-child {
-  margin-bottom: 0;
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
 }
 .entry::before {
   content: "";
   position: absolute;
-  top: 27px;
-  left: -36px;
-  width: 11px;
-  height: 11px;
+  top: 21px;
+  left: calc(var(--space-6) * -1 - 5px);
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  background: var(--accent);
   box-shadow: 0 0 0 4px var(--bg);
 }
-.entry:hover {
-  transform: translateX(3px);
-}
-.entry h2 {
-  margin-bottom: 6px;
-  color: var(--accent);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+.entry h3 {
+  margin-bottom: var(--space-1);
+  color: var(--muted);
+  font-size: var(--text-xs);
+  font-weight: 600;
 }
 .entry p {
   margin: 0;
-  font-size: 0.96rem;
+  font-size: var(--text-sm);
 }
 
 @media (max-width: 520px) {
   .timeline {
-    padding-left: 22px;
+    padding-left: var(--space-5);
   }
   .entry {
-    padding: 16px 18px;
+    padding: var(--space-4);
   }
   .entry::before {
-    left: -28px;
+    left: calc(var(--space-5) * -1 - 5px);
     width: 9px;
     height: 9px;
   }

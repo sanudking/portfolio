@@ -1,17 +1,17 @@
 .github-section {
-  padding-top: 88px;
+  padding-top: var(--space-8);
   --cell: 11px;
   --gap: 3px;
 }
 
 .github-card {
-  padding: 22px 24px 16px;
+  padding: var(--space-5) var(--space-5) var(--space-4);
 }
 
 .github-body {
   display: flex;
   align-items: stretch;
-  gap: 8px;
+  gap: var(--space-2);
   overflow-x: auto;
   scrollbar-width: thin;
   padding-bottom: 4px;
@@ -28,7 +28,7 @@
 }
 .github-weekdays span {
   color: var(--muted);
-  font-size: 0.62rem;
+  font-size: var(--text-2xs);
   line-height: 1;
   display: flex;
   align-items: center;
@@ -52,7 +52,7 @@
 }
 .github-months span {
   color: var(--muted);
-  font-size: 0.62rem;
+  font-size: var(--text-2xs);
   line-height: 1;
   white-space: nowrap;
   overflow: visible;
@@ -73,8 +73,8 @@
   background: var(--surface);
   box-shadow: inset 0 0 0 1px var(--border);
   transition:
-    box-shadow 0.18s ease,
-    transform 0.18s ease;
+    box-shadow var(--dur-fast) var(--ease),
+    transform var(--dur-fast) var(--ease);
 }
 
 .github-cell[data-level="1"] {
@@ -98,7 +98,7 @@
   box-shadow:
     inset 0 0 0 1px var(--accent-border),
     0 0 0 1px var(--accent-border);
-  transform: scale(1.15);
+  transform: scale(1.1);
 }
 
 /* Skeleton keeps the exact final footprint so nothing shifts on load. */
@@ -111,19 +111,19 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: var(--space-4);
   flex-wrap: wrap;
-  margin-top: 16px;
-  padding-top: 12px;
+  margin-top: var(--space-4);
+  padding-top: var(--space-3);
   border-top: 1px solid var(--border);
 }
 
 .github-legend {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--space-1);
   color: var(--muted);
-  font-size: 0.72rem;
+  font-size: var(--text-xs);
 }
 /* Legend swatches keep GitHub's fixed 11px size regardless of card width. */
 .github-legend .github-cell {
@@ -132,18 +132,21 @@
   flex: 0 0 auto;
 }
 .github-legend span:first-child {
-  margin-right: 4px;
+  margin-right: var(--space-1);
 }
 .github-legend span:last-child {
-  margin-left: 4px;
+  margin-left: var(--space-1);
 }
 
 .github-link {
   color: var(--accent);
+  font-size: var(--text-sm);
   font-weight: 600;
   text-decoration: none;
   border-bottom: 1px solid transparent;
-  transition: border-color 0.2s ease, color 0.2s ease;
+  transition:
+    border-color var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease);
 }
 .github-link:hover {
   color: var(--accent-hover);
@@ -161,10 +164,10 @@
 
 @media (max-width: 900px) {
   .github-section {
-    padding-top: 56px;
+    padding-top: var(--space-7);
   }
   .github-card {
-    padding: 18px 16px 14px;
+    padding: var(--space-4);
   }
 }
 
@@ -174,10 +177,10 @@
     --gap: 2px;
   }
   .github-footer {
-    gap: 10px;
+    gap: var(--space-2);
   }
   .github-weekdays span,
   .github-months span {
-    font-size: 0.56rem;
+    font-size: 0.6rem;
   }
 }

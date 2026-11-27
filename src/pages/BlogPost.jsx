@@ -20,11 +20,11 @@ function BlogPost() {
         depth={0.8}
         lag={5}
       >
-        <Link className="post-back" to="/blogs">
+        <Link className="post-back" to="/writing">
           <span aria-hidden="true">←</span> All writing
         </Link>
 
-        <span className="eyebrow">Blog</span>
+        <span className="eyebrow">Writing</span>
         <h1 className="page-title post-title">{post.title}</h1>
         <p className="page-subtitle post-subtitle">{post.excerpt}</p>
 
@@ -55,7 +55,7 @@ function BlogPost() {
           <Link className="btn btn-primary" to="/contact">
             Get in touch
           </Link>
-          <Link className="btn btn-ghost" to="/blogs">
+          <Link className="btn btn-ghost" to="/writing">
             Back to writing
           </Link>
         </div>

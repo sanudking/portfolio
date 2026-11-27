@@ -1,5 +1,5 @@
 /**
- * Body for /blog/building-this-portfolio.
+ * Body for /writing/building-this-portfolio.
  *
  * Written as JSX rather than markdown so the prose can use real semantic
  * elements without pulling in a parser or a renderer. Long-form typography

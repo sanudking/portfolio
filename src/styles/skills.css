@@ -1,21 +1,21 @@
 .skills-section {
-  padding-top: 88px;
+  padding-top: var(--space-8);
 }
 
 .skills-groups {
   display: grid;
-  gap: 22px;
+  gap: var(--space-5);
 }
 
 .skills-group-title {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin: 0 0 12px;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-3);
   color: var(--muted);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
 }
 /* Accent dot mirrors the eyebrow treatment used in section headings. */
@@ -25,52 +25,50 @@
   height: 6px;
   border-radius: 50%;
   background: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-soft);
   flex: 0 0 auto;
 }
 .skills-group-count {
   color: var(--muted);
-  font-size: 0.66rem;
-  font-weight: 600;
+  font-size: var(--text-2xs);
+  font-weight: 500;
   letter-spacing: 0;
+  line-height: 1.4;
   padding: 1px 7px;
   border: 1px solid var(--border);
-  border-radius: 999px;
-  background: var(--surface);
+  border-radius: var(--radius-pill);
+  background: transparent;
 }
 
 .skills-group-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: var(--space-2);
 }
 
 .skill-chip {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
-  padding: 8px 14px 8px 12px;
+  gap: var(--space-2);
+  padding: 7px 12px;
   border: 1px solid var(--border);
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background: var(--surface);
-  font-size: 0.86rem;
-  font-weight: 600;
+  font-size: var(--text-sm);
+  font-weight: 500;
   line-height: 1.1;
   white-space: nowrap;
   transition:
-    transform 0.2s ease,
-    border-color 0.2s ease,
-    background 0.2s ease;
+    border-color var(--dur-fast) var(--ease),
+    background var(--dur-fast) var(--ease);
 }
 .skill-chip:hover {
-  transform: translateY(-2px);
-  border-color: var(--accent-border);
+  border-color: var(--border-strong);
   background: var(--surface-hover);
 }
 
 .skill-chip img {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   flex: 0 0 auto;
 }
 /* Express and other black-only devicons need to be inverted on dark. */
@@ -79,38 +77,29 @@
   opacity: 0.9;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .skill-chip {
-    transition: none;
-  }
-  .skill-chip:hover {
-    transform: none;
-  }
-}
-
 @media (max-width: 900px) {
   .skills-section {
-    padding-top: 56px;
+    padding-top: var(--space-7);
   }
 }
 
 @media (max-width: 520px) {
   .skills-groups {
-    gap: 18px;
+    gap: var(--space-4);
   }
   .skills-group-title {
-    margin-bottom: 10px;
+    margin-bottom: var(--space-2);
   }
   .skills-group-chips {
-    gap: 8px;
+    gap: var(--space-2);
   }
   .skill-chip {
-    gap: 7px;
-    padding: 7px 12px 7px 10px;
-    font-size: 0.8rem;
+    gap: 6px;
+    padding: 6px 10px;
+    font-size: var(--text-xs);
   }
   .skill-chip img {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
   }
 }

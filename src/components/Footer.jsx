@@ -30,14 +30,11 @@ const navLinks = [
   { to: "/#experience", label: "Experience", hash: true },
   { to: "/#education", label: "Education", hash: true },
   { to: "/projects", label: "Projects" },
-  { to: "/journal", label: "Journal" },
-  { to: "/blogs", label: "Blog" },
+  { to: "/writing", label: "Writing" },
   { to: "/contact", label: "Contact" },
 ];
 
 function Footer() {
-  const year = new Date().getFullYear();
-
   return (
     <footer className="footer">
       <div className="footer-inner">

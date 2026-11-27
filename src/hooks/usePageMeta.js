@@ -4,7 +4,7 @@ import posts from "../data/posts";
 const SITE_NAME = "Sudhanshu Kumar";
 const BASE_TITLE = "Sudhanshu Kumar — Full-stack developer";
 const BASE_DESCRIPTION =
-  "Sudhanshu Kumar — full-stack developer and CSE undergrad at NIT Jalandhar. Projects, journal and contact.";
+  "Sudhanshu Kumar — full-stack developer and CSE undergrad at NIT Jalandhar. Projects, writing and contact.";
 
 const META = {
   "/": {
@@ -16,20 +16,10 @@ const META = {
     description:
       "Selected projects: distributed LLM inference, 3D physics simulations, computer-vision tooling and this portfolio.",
   },
-  "/journal": {
-    title: `Journal — ${SITE_NAME}`,
-    description:
-      "Short, frequent notes on what I'm learning — JavaScript internals, low-level design, DSA and side projects.",
-  },
-  "/blog": {
+  "/writing": {
     title: `Writing — ${SITE_NAME}`,
     description:
-      "Longer write-ups on the things I learn while building: deep dives, post-mortems and tutorials.",
-  },
-  "/blogs": {
-    title: `Writing — ${SITE_NAME}`,
-    description:
-      "Longer write-ups on the things I learn while building: deep dives, post-mortems and tutorials.",
+      "Essays and a learning log on what I build and study — JavaScript internals, low-level design, DSA and side projects.",
   },
   "/contact": {
     title: `Contact — ${SITE_NAME}`,
@@ -49,11 +39,11 @@ const NOT_FOUND = {
 };
 
 /**
- * Fixed pages come from META; blog posts are resolved from the post data so
- * each one gets its own title, description and canonical URL.
+ * Fixed pages come from META; essays are resolved from the post data so each
+ * one gets its own title, description and canonical URL.
  */
 function resolveMeta(path) {
-  const match = path.match(/^\/blogs?\/([^/]+)$/);
+  const match = path.match(/^\/(?:writing|blogs?)\/([^/]+)$/);
   if (match) {
     const post = posts.find((entry) => entry.slug === match[1]);
     if (post) {
@@ -61,7 +51,7 @@ function resolveMeta(path) {
         title: `${post.title} — ${SITE_NAME}`,
         description: post.excerpt,
         type: "article",
-        canonicalPath: `/blog/${post.slug}`,
+        canonicalPath: `/writing/${post.slug}`,
       };
     }
   }

@@ -1,6 +1,7 @@
-import Inertial from "../components/Inertial";
-import "../styles/journal.css";
-
+/**
+ * Short learning-log entries, newest first. These sit below the essays on the
+ * Writing page, so keep each one to a sentence or two.
+ */
 const entries = [
   {
     date: "Sun, Aug 19",
@@ -64,35 +65,4 @@ const entries = [
   },
 ];
 
-function Journal() {
-  return (
-    <div>
-      <Inertial as="header" className="page-head inertial-block" depth={0.8} lag={5}>
-        <span className="eyebrow">Journal</span>
-        <h1 className="page-title">Learning log</h1>
-        <p className="page-subtitle">
-          A running record of what I study, build and break — mostly so future me
-          can see the progress.
-        </p>
-      </Inertial>
-
-      <div className="timeline">
-        {entries.map((entry) => (
-          <Inertial
-            key={entry.date}
-            className="inertial-item"
-            depth={0.7}
-            lag={6}
-          >
-            <article className="entry card">
-              <h2>{entry.date}</h2>
-              <p>{entry.text}</p>
-            </article>
-          </Inertial>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-export default Journal;
+export default entries;

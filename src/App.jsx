@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useParams } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import StarfieldBackground from "./components/StarfieldBackground";
@@ -8,12 +8,17 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Projects from "./pages/Projects";
-import Blog from "./pages/Blog";
+import Writing from "./pages/Writing";
 import BlogPost from "./pages/BlogPost";
 import Contact from "./pages/Contact";
 import Accomplishments from "./pages/Accomplishments";
-import Journal from "./pages/Journal";
 import NotFound from "./pages/NotFound";
+
+// Old post links still resolve; only the canonical URL changed.
+function LegacyPostRedirect() {
+  const { slug } = useParams();
+  return <Navigate to={`/writing/${slug}`} replace />;
+}
 
 function App() {
   return (
@@ -32,10 +37,12 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/projects" element={<Projects />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/blogs" element={<Blog />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:slug" element={<BlogPost />} />
-            <Route path="/journal" element={<Journal />} />
+            <Route path="/writing" element={<Writing />} />
+            <Route path="/writing/:slug" element={<BlogPost />} />
+            <Route path="/blogs" element={<Navigate to="/writing" replace />} />
+            <Route path="/blog" element={<Navigate to="/writing" replace />} />
+            <Route path="/blog/:slug" element={<LegacyPostRedirect />} />
+            <Route path="/journal" element={<Navigate to="/writing#learning-log" replace />} />
             <Route path="/accomplishments" element={<Accomplishments />} />
             <Route path="/skills" element={<Navigate to="/#skills" replace />} />
             <Route path="/education" element={<Navigate to="/#education" replace />} />
