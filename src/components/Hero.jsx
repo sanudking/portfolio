@@ -8,7 +8,7 @@ import "../styles/hero.css";
 const HeroPlanetCanvas = lazy(() => import("./HeroPlanetCanvas"));
 
 const RESUME_URL =
-  "https://drive.google.com/file/d/15cMswfi4aUzp7klr28q4yRgJ3a8tXWkq/view?usp=sharing";
+  "https://drive.google.com/file/d/1DlFhwU-qSJFwjmpYTiC4WKLnkB_q7GTf/view?usp=sharing";
 
 const PLANETS = [
   {
